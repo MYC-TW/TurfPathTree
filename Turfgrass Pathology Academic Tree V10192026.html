@@ -301,7 +301,7 @@ h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing
   </button>
   <div id="notes-body" hidden>
     <p class="foot">No link here now rests on pure inference. Six remain dashed as reported — strongly evidenced but without a source that states the relationship outright — and the gaps that are left point upward rather than across: McCall's doctoral advisor at Virginia Tech, Vargas's at Minnesota, Mitkowski's at Cornell, Tomaso-Peterson's at Mississippi State, Latin's own training. Each would extend a line back a generation rather than add anyone new.</p>
-    <p class="foot">Two patterns show up once the graph is this complete. Turf pathology is entered more often than inherited: Uddin, Kennelly and Shaohui Wu all trained in other systems and specialized afterwards, so their doctoral edges run clean out of the field. And the destination is increasingly not a university — twelve people here are in industry, the Maryland chair has lost two holders in a row to it, and of Clarke's students in this diagram more are now at companies than at universities.</p>
+    <p class="foot">Two patterns show up once the graph is this complete. Turf pathology is entered more often than inherited: Uddin, Kennelly and Shaohui Wu all trained in other systems and specialized afterwards, so their doctoral edges run clean out of the field. And the destination is increasingly not a university — thirteen people here are in industry, five of them at Envu alone, the Maryland chair has lost two holders in a row to it, and of Clarke's students in this diagram more are now at companies than at universities.</p>
   </div>
 </div>
 
@@ -420,8 +420,14 @@ const P=[
 {id:"kaminski",gen:5,status:"active",phd:"dernoeden",ms:"dernoeden",conf:"documented",name:"John Kaminski",inst:"Penn State",
  deg:["B.S. Penn State, 1998","M.S. and Ph.D. Plant Pathology, University of Maryland, under Peter Dernoeden"],
  roles:["Assistant Professor of Turfgrass Pathology, University of Connecticut, and director of its Turfgrass Disease Diagnostic Center","Associate Professor of Turfgrass Science, Penn State","Chief agronomy officer, GreenSight"],
- note:"Doctoral work on the biology of <i>Ophiosphaerella agrostis</i> and the epidemiology of bentgrass dead spot — the disease his own advisor had described. Won the Musser Award of Excellence.",
+ note:"Doctoral work on the biology of <i>Ophiosphaerella agrostis</i> and the epidemiology of bentgrass dead spot — the disease his own advisor had described. Won the Musser Award of Excellence. Travis Russell's doctoral advisor, which makes the Maryland line three generations deep: Dernoeden, Kaminski, Russell.",
  claim:"Confirmed. Dernoeden is named as his doctoral advisor in the Musser award coverage, and the relationship is corroborated directly.",src:[26]},
+
+{id:"russell",gen:5,status:"active",phd:"kaminski",conf:"documented",name:"Travis Russell",inst:"Envu",
+ deg:["Ph.D. Penn State University, under John Kaminski"],
+ roles:["Envu"],
+ note:"His master's was in a field unrelated to pathology, so only the doctorate places him here — the same shape as Chou and Shaohui Wu, who also came to turf pathology from elsewhere. The fifth person in this diagram now at Envu.",
+ claim:"Kaminski confirmed directly as his doctoral advisor. His master's is outside pathology and is deliberately not drawn, since it carries no lineage into this field.",src:[]},
 
 {id:"fidanza",gen:5,status:"active",conf:"reported",name:"Michael Fidanza",inst:"Penn State Berks",kind:"offpath",
  deg:["B.S. Agricultural Science, Penn State","M.Agr. Agronomy, Penn State","Ph.D. Agronomy (Plant and Soil Sciences), University of Maryland"],
