@@ -1,0 +1,1329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+/* Document skeleton. On claude.ai this is supplied by the artifact host; it is
+   inlined here so the file is self-contained and renders identically offline. */
+:root{
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#fafaf8}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Turfgrass Pathology Academic Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+
+</head>
+<body>
+<style>
+/* Layout: generation-banded node-link graph. PhD advising is the drawn trunk;
+   MS advising, postdoc training and position succession are overlaid as distinct
+   crossing edges, so a person with three different relationships reads as one node. */
+:root{
+  --paper:#f5f6f1;
+  --surface:#ffffff;
+  --surface-2:#eef0e9;
+  --band:#eaeee4;
+  --ink:#1b231e;
+  --ink-soft:#56625b;
+  --ink-faint:#7d887f;
+  --rule:#d6ddd1;
+  --rule-soft:#e6ebe1;
+  --phd:#3d6a48;
+  --ms:#946a16;
+  --postdoc:#5a7fa8;
+  --succ:#9a5340;
+  --mentor:#7a5c8e;
+  --coadv:#6f9c7a;
+  --slate:#8d9a92;
+  --ptband:#e7eef2;
+  --ptnode:#f3f8fa;
+  --font-display:"Bitter",Georgia,"Times New Roman",serif;
+  --font-body:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131713;--surface:#1b201c;--surface-2:#232a24;--band:#181d19;
+    --ink:#e9ede6;--ink-soft:#a0ada4;--ink-faint:#808d85;
+    --rule:#2f372f;--rule-soft:#262d27;
+    --phd:#82b68c;--ms:#d8ab4c;--postdoc:#8fb4d8;--succ:#d59179;--mentor:#b79bc9;--coadv:#5d8a68;--slate:#93a19a;
+    --ptband:#161d22;--ptnode:#1b242a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131713;--surface:#1b201c;--surface-2:#232a24;--band:#181d19;
+  --ink:#e9ede6;--ink-soft:#a0ada4;--ink-faint:#808d85;
+  --rule:#2f372f;--rule-soft:#262d27;
+  --phd:#82b68c;--ms:#d8ab4c;--postdoc:#8fb4d8;--succ:#d59179;--mentor:#b79bc9;--coadv:#5d8a68;--slate:#93a19a;
+  --ptband:#161d22;--ptnode:#1b242a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--font-body);
+  font-size:16px;line-height:1.55;margin:0;padding-inline:18px;padding-block:0 60px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto}
+
+.mast{padding-block:38px 22px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 13px}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(29px,5.6vw,44px);
+  line-height:1.08;letter-spacing:-.015em;margin:0 0 13px;text-wrap:balance}
+.standfirst{font-size:17px;color:var(--ink-soft);margin:0;max-width:66ch}
+.counts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:20px;
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-soft)}
+.counts b{font-weight:500;color:var(--ink);font-size:18px;display:block;line-height:1.2}
+
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;
+  background:var(--paper);border-bottom:1px solid var(--rule);padding-block:11px;
+  display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+#q{flex:1 1 200px;min-width:0;font-family:var(--font-body);font-size:15px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:8px 11px}
+#q:focus-visible{outline:2px solid var(--phd);outline-offset:1px}
+.btn{font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  background:transparent;color:var(--ink-soft);border:1px solid var(--rule);border-radius:3px;
+  padding:7px 10px;cursor:pointer}
+.btn:hover{border-color:var(--ink-faint);color:var(--ink)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--phd);outline-offset:1px}
+.toggles{display:flex;flex-wrap:wrap;gap:6px}
+
+.controls2{display:flex;flex-direction:column;gap:9px;padding-block:13px 4px}
+.ctlrow{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.ctllabel{font-family:var(--font-mono);font-size:10px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-faint);flex:none;width:76px}
+@media (max-width:560px){.ctllabel{width:auto}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.chip{display:inline-flex;align-items:center;gap:6px;text-transform:none;
+  letter-spacing:0;font-family:var(--font-body);font-size:12.5px;padding:5px 9px}
+.chip .cnt{font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);
+  font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"] .cnt{color:var(--paper);opacity:.75}
+.viewnote{font-family:var(--font-mono);font-size:11px;color:var(--postdoc);
+  margin-left:4px}
+
+.key{display:flex;flex-wrap:wrap;gap:7px 20px;padding-block:14px 8px;
+  font-family:var(--font-mono);font-size:11px;color:var(--ink-soft)}
+.key span{display:flex;align-items:center;gap:7px}
+.swatch{width:22px;height:0;border-top-width:2.5px;flex:none}
+.sw-phd{border-top:2.5px solid var(--phd)}
+.sw-ms{border-top:2.5px dashed var(--ms)}
+.sw-postdoc{border-top:2.5px dotted var(--postdoc)}
+.sw-succ{border-top:2.5px solid var(--succ)}
+.sw-mentor{border-top:2.5px dotted var(--mentor)}
+.sw-coadv{border-top:2px dashed var(--coadv)}
+.dot{width:10px;height:10px;border-radius:2px;flex:none}
+.dot.ptdot{background:var(--ptnode);border:1.5px solid var(--postdoc)}
+.hint{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint);
+  padding-bottom:12px}
+
+/* ---- graph ---- */
+.stage{position:relative;border:1px solid var(--rule);border-radius:4px;
+  background:var(--surface);overflow:auto;max-height:78vh;touch-action:pan-x pan-y}
+#graph{display:block}
+.gnode{cursor:pointer}
+.gnode rect{fill:var(--surface);stroke:var(--rule);stroke-width:1.2;rx:3}
+.gnode:hover rect{stroke:var(--ink-faint)}
+.gnode.sel rect{stroke:var(--ink);stroke-width:2}
+.gnode.dim{opacity:.22}
+.gnode text{font-family:var(--font-body);font-size:12px;fill:var(--ink);
+  dominant-baseline:middle}
+.gnode .inst{font-family:var(--font-mono);font-size:9px;fill:var(--ink-faint)}
+.gnode .stripe{stroke:none}
+.gnode:focus-visible rect{outline:none;stroke:var(--phd);stroke-width:2.5}
+.edge{fill:none;stroke-width:1.6}
+.edge.dim{opacity:.07}
+.edge.lit{stroke-width:2.8}
+.e-phd{stroke:var(--phd)}
+.e-ms{stroke:var(--ms);stroke-dasharray:6 4}
+.e-postdoc{stroke:var(--postdoc);stroke-dasharray:2 3.5}
+.e-succ{stroke:var(--succ);stroke-dasharray:none;opacity:.75}
+.e-mentor{stroke:var(--mentor);stroke-dasharray:1.5 4;stroke-linecap:round;opacity:.85}
+.e-coadv{stroke:var(--coadv);stroke-dasharray:7 5;stroke-width:1.2;opacity:.9}
+.bandrect{fill:var(--band)}
+.bandrect.pt{fill:var(--ptband)}
+.ptrule{stroke:var(--postdoc);stroke-width:1.2;stroke-dasharray:5 4;opacity:.7}
+.bandlabel{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;fill:var(--ink-faint)}
+.bandlabel.pt{fill:var(--postdoc)}
+.unver{stroke-dasharray:3 3}
+.gnode.pt rect:first-of-type{fill:var(--ptnode)}
+
+/* ---- detail panel ---- */
+.panel{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--phd);
+  border-radius:3px;padding:17px 19px;margin-top:14px}
+.panel h3{font-family:var(--font-display);font-size:19px;font-weight:700;margin:0 0 3px;
+  letter-spacing:-.01em}
+.panel .sub{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-faint);
+  margin:0 0 14px}
+.panel dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 16px}
+@media (max-width:520px){.panel dl{grid-template-columns:1fr;gap:2px 0}.panel dd{margin-bottom:9px}}
+.panel dt{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-faint);padding-top:4px}
+.panel dd{margin:0;font-size:15px;line-height:1.5}
+.panel dd ul{margin:0;padding-left:17px}
+.panel dd li{margin-bottom:2px}
+.panel .claim{color:var(--ink-soft);font-size:14.5px;font-style:italic;margin-top:13px;
+  padding-top:11px;border-top:1px solid var(--rule-soft)}
+.panel a{color:var(--phd);text-underline-offset:2px}
+.rel{display:inline-flex;align-items:center;gap:6px;margin-right:14px}
+.rel i{width:16px;height:0;flex:none}
+.placeholder{color:var(--ink-faint);font-style:italic}
+
+h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.01em;
+  margin:42px 0 6px;padding-top:22px;border-top:1px solid var(--rule);text-wrap:balance}
+.sec-note{color:var(--ink-soft);font-size:15px;margin:0 0 20px;max-width:64ch}
+
+.crosswalk{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:3px;overflow:hidden}
+.cw{background:var(--surface);padding:14px 16px}
+.cw .who{font-family:var(--font-display);font-weight:700;font-size:16px}
+.cw .lines{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.cw .line{display:flex;gap:9px;align-items:baseline;font-size:14.5px}
+.cw .line i{width:18px;height:0;flex:none;position:relative;top:-4px}
+.cw .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-faint);flex:none;width:74px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.cell{background:var(--surface);padding:13px 15px}
+.cell .nm2{font-family:var(--font-display);font-weight:500;font-size:15.5px;line-height:1.3}
+.cell .d{font-size:13.5px;color:var(--ink-soft);margin-top:3px}
+.cell .qq{font-family:var(--font-mono);font-size:10.5px;color:var(--ms);margin-top:6px}
+
+.src{font-size:14px;color:var(--ink-soft);padding-left:19px;margin:0}
+.src li{margin-bottom:7px}
+.src a{color:var(--phd)}
+.notes{margin-top:36px;padding-top:18px;border-top:1px solid var(--rule)}
+.disclose{display:inline-flex;align-items:center;gap:8px;text-transform:none;
+  letter-spacing:0;font-family:var(--font-body);font-size:14px;padding:7px 11px}
+.disclose .caret{font-family:var(--font-mono);font-size:10px;color:var(--ink-faint);
+  transition:transform .15s ease;display:inline-block}
+.disclose[aria-expanded="true"] .caret{transform:rotate(90deg)}
+.foot{font-size:14px;color:var(--ink-soft);max-width:64ch;margin:16px 0 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Academic genealogy · North America</p>
+  <h1>Turfgrass Pathology Academic Tree</h1>
+  <p class="standfirst">Who trained whom in turfgrass pathology, from the University of Wisconsin plant pathology department of the 1910s to the labs running today. Doctoral advising forms the rectilinear trunk; master's advising, postdoctoral training and succession in a post curve across it, because in a field this small a career usually carries more than one of those ties.</p>
+  <div class="counts">
+    <div><b id="c-people">0</b> people</div>
+    <div><b id="c-edges">0</b> relationships</div>
+    <div><b id="c-multi">0</b> with multiple ties</div>
+    <div><b id="c-pt">0</b> pre-tenure</div>
+    <div><b id="c-diag">0</b> diagnosticians</div>
+    <div><b id="c-inst">0</b> institutions</div>
+  </div>
+</header>
+
+<div class="controls">
+  <input id="q" type="search" placeholder="Search a name, institution, or disease…" autocomplete="off">
+  <div class="toggles">
+    <button class="btn" data-kind="phd" aria-pressed="true" type="button">PhD</button>
+    <button class="btn" data-kind="coadv" aria-pressed="true" type="button">Co-advisor</button>
+    <button class="btn" data-kind="ms" aria-pressed="true" type="button">MS</button>
+    <button class="btn" data-kind="postdoc" aria-pressed="true" type="button">Postdoc</button>
+    <button class="btn" data-kind="succ" aria-pressed="true" type="button">Succession</button>
+    <button class="btn" data-kind="mentor" aria-pressed="true" type="button">Mentorship</button>
+  </div>
+</div>
+
+<div class="controls2">
+  <div class="ctlrow">
+    <span class="ctllabel">Filter out</span>
+    <button class="btn" id="active-only" aria-pressed="false" type="button">All but active</button>
+    <button class="btn" id="hide-industry" aria-pressed="false" type="button">Industry</button>
+    <button class="btn clearbtn" type="button">Clear all</button>
+  </div>
+  <div class="ctlrow">
+    <span class="ctllabel">Highlight</span>
+    <button class="btn hlbtn" id="hl-active" data-hl="active" aria-pressed="false" type="button">Currently active</button>
+    <button class="btn hlbtn" id="hl-diag" data-hl="diag" aria-pressed="false" type="button">Diagnosticians</button>
+    <button class="btn clearbtn" type="button">Clear all</button>
+    <span id="viewnote" class="viewnote"></span>
+  </div>
+  <div class="ctlrow">
+    <span class="ctllabel">Institution</span>
+    <div class="chips" id="schools"></div>
+  </div>
+</div>
+
+<div class="key">
+  <span><i class="swatch sw-phd"></i> Doctoral advisor (major)</span>
+  <span><i class="swatch sw-coadv"></i> Doctoral co-advisor</span>
+  <span><i class="swatch sw-ms"></i> Master's advisor</span>
+  <span><i class="swatch sw-postdoc"></i> Postdoctoral mentor</span>
+  <span><i class="swatch sw-succ"></i> Succeeded in a post</span>
+  <span><i class="swatch sw-mentor"></i> Trained under, informally</span>
+  <span>Dashed node outline = relationship unverified</span>
+  <span><i class="dot ptdot"></i> Tinted bottom band = pre-tenure</span>
+  <span>◇ diagnostician · △ turf role outside pathology · ◦ outside turfgrass entirely</span>
+  <span>“Active only” keeps the people whose records state a current post; it does not claim the rest have died</span>
+</div>
+<p class="hint">Click a node to see the record and light up every tie it has; the institution chips highlight everyone who trained or worked somewhere, so people who moved appear under more than one. Scroll or drag inside the frame to move around. For two programs here — the CDGA and Ohio State — only the succession of posts is documented, so those lines carry no advising edges at all. The dotted violet line is informal mentorship: trained under someone without that person signing the degree. Bands group people by career stage rather than by strict generation, so plenty of edges run sideways within a band — Kerns advised Roberts, Kerns and Koch each hold posts the other once held — and those curve below the row rather than down to the next one.</p>
+
+<div class="stage" id="stage">
+  <svg id="graph" role="img" aria-label="Node-link diagram of advising relationships in turfgrass pathology"></svg>
+</div>
+<div class="panel" id="panel">
+  <p class="placeholder">Select anyone in the diagram for their degrees, posts, relationships, and the source behind each link.</p>
+</div>
+
+<h2>People with more than one tie</h2>
+<p class="sec-note">The cases that broke the earlier outline version. Each of these people belongs to two or three lineages at once, which is normal here and invisible in a conventional tree.</p>
+<div class="crosswalk" id="crosswalk"></div>
+
+<h2>Found but not yet placed</h2>
+<p class="sec-note">In the field, but with no citable source for the advising link. Each needs one answer to join the diagram.</p>
+<div class="grid" id="unplaced"></div>
+
+<h2>Sources</h2>
+<ol class="src" id="sources"></ol>
+
+<div class="notes">
+  <button class="btn disclose" id="notes-toggle" aria-expanded="false" aria-controls="notes-body" type="button">
+    <span class="caret">▸</span> What's still missing, and two patterns in the data
+  </button>
+  <div id="notes-body" hidden>
+    <p class="foot">No link here now rests on pure inference. Six remain dashed as reported — strongly evidenced but without a source that states the relationship outright — and the gaps that are left point upward rather than across: McCall's doctoral advisor at Virginia Tech, Vargas's at Minnesota, Mitkowski's at Cornell, Tomaso-Peterson's at Mississippi State, Latin's own training. Each would extend a line back a generation rather than add anyone new.</p>
+    <p class="foot">Two patterns show up once the graph is this complete. Turf pathology is entered more often than inherited: Uddin, Kennelly and Shaohui Wu all trained in other systems and specialized afterwards, so their doctoral edges run clean out of the field. And the destination is increasingly not a university — twelve people here are in industry, the Maryland chair has lost two holders in a row to it, and of Clarke's students in this diagram more are now at companies than at universities.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* gen: 0 roots … higher = later. Each person has at most one phd parent (trunk),
+   plus optional ms / postdoc / succeeds links drawn as overlays. */
+const P=[
+{id:"jones",gen:0,name:"Lewis R. Jones",inst:"Wisconsin",kind:"context",conf:"documented",
+ roles:["Founding chair, Department of Plant Pathology, University of Wisconsin–Madison"],
+ note:"Not a turfgrass pathologist himself, but the common ancestor of the field: Monteith and Dahl went from his department to the USGA Green Section, and the Walker–Grogan–Couch chain that produced the first university turf pathology program runs out of it too. Every one of those links is now confirmed rather than inferred.",
+ claim:"Confirmed as Monteith's major professor and as the author of Dahl's recommendation letter. Walker's training under him is established in the department's history.",src:[1,2]},
+
+{id:"monteith",gen:1,phd:"jones",conf:"documented",name:"John Monteith Jr.",inst:"USGA Green Section",
+ meta:"1893–?",
+ deg:["B.S. 1916, M.S. 1917, Rutgers College","Ph.D. Plant Pathology, Wisconsin, 1923 — soil temperature and moisture in <i>Plasmodiophora brassicae</i> infection"],
+ roles:["Pathologist, USGA Green Section, from 1923","Director, USGA Green Section, 1928–1942"],
+ note:"Generally regarded as the first turfgrass pathologist in the United States. Named dollar spot. Co-author with Dahl of <i>Turf Diseases and Their Control</i> (1932), the first comprehensive treatment of the subject. With Jones confirmed as his major professor, the oldest root in this diagram is settled: American turf pathology begins in one Wisconsin department.",
+ claim:"Jones confirmed directly as his major professor. The Wisconsin Ph.D., the 1923 date and the thesis topic are documented in the program history.",src:[1,2]},
+
+{id:"dahl",gen:1,phd:"jones",conf:"reported",name:"Arnold S. Dahl",inst:"USGA Green Section",
+ meta:"b. 1899",
+ deg:["B.S. 1924, M.S. 1925, Ph.D. 1931, Plant Pathology, Wisconsin","Dissertation: <i>Snow mold of turf grasses</i>"],
+ roles:["Plant pathologist, USGA Green Section, under Monteith","Taught at Des Moines University and Kansas City University"],
+ succeeds:"monteith",succLabel:"took over turf disease research at the Green Section",
+ note:"Born in Superior, Wisconsin, a day before Monteith's birthday. The 1932 bulletin the two wrote is arguably the first integrated disease management document in turf.",
+ claim:"L. R. Jones wrote Dahl's letter of recommendation, quoted at length in the Wisconsin program history — strong evidence of supervision, short of an explicit statement.",src:[1]},
+
+{id:"walker",gen:1,phd:"jones",conf:"reported",name:"John C. Walker",inst:"Wisconsin",kind:"context",
+ roles:["Professor of Plant Pathology, University of Wisconsin"],
+ note:"A vegetable pathologist, and the link that carried Wisconsin's approach to California and from there into turf.",
+ claim:"Named in Couch's memorial as Grogan's major professor. His own training under Jones is established in department history but not sourced here.",src:[3]},
+
+{id:"grogan",gen:2,phd:"walker",conf:"documented",name:"Ray G. Grogan",inst:"UC Davis",kind:"context",
+ deg:["Ph.D. Plant Pathology, Wisconsin, under J. C. Walker"],
+ roles:["Professor of Plant Pathology, University of California, Davis"],
+ note:"A vegetable pathologist. Couch's dissertation under him was on lettuce anthracnose and seed transmission of lettuce mosaic virus — no turf at all.",
+ claim:"Stated directly in the memorial account of Couch's career, written by his own graduate student.",src:[3]},
+
+{id:"couch",gen:3,status:"deceased",phd:"grogan",conf:"documented",name:"Houston B. Couch",inst:"Virginia Tech",
+ meta:"1924–2004",
+ deg:["B.S. Agronomy, Tennessee Tech, 1950","Ph.D. Plant Pathology, UC Davis, 1954, under R. G. Grogan"],
+ roles:["Forage then turfgrass pathologist, Penn State, 1954–1965","Head, Plant Pathology and Physiology, Virginia Tech, 1965–1974","Professor, Virginia Tech, to 2003"],
+ note:"With Frank Howard at Rhode Island, one of the first two full-time university turfgrass pathologists. Wrote <i>Diseases of Turfgrasses</i> (1962), the first book on the subject, through three editions. Described Fusarium blight; coined <i>senectopathic</i>. A paratrooper with the 517th in Italy, southern France and the Ardennes before any of it. His line continues at Virginia Tech not through a dissertation but through David McCall, who started under him as a summer hire in 1997.",
+ claim:"Degrees, dates and advisor all stated in the memorial article by Steve Abler, drawing on a 2001 interview with Couch.",src:[3,4]},
+
+{id:"mccall",gen:5,status:"active",mentor:"couch",conf:"documented",name:"David McCall",inst:"Virginia Tech",
+ mentorLabel:"started at Virginia Tech in 1997 working under Couch, and stayed through every step from summer job to faculty",
+ deg:["B.B.A. Marketing, Radford University, 2001","M.L.S. Plant Pathology, Virginia Tech, 2006","Ph.D. Plant Pathology, Virginia Tech, 2016"],
+ roles:["Summer and then year-round positions under Houston Couch, Virginia Tech, from 1997","Research Associate, Virginia Tech, 2009–2016","Assistant Professor, 2016–2023","Associate Professor, School of Plant and Environmental Sciences, from 2023"],
+ note:"The apprenticeship route, in his own account: “My career at VT began in 1997 working under the late Houston Couch. I had this neat opportunity for a summer job that would get me out on golf courses and athletic fields for a few months. That lead to another summer… then a year round position… then grad school… then a technical position… then a research appointment… and here I am.” A marketing degree became a turf pathology career by staying in one place for twenty years. Remote sensing with drones for disease and water stress, field radiometry and thermal imagery, targeted spraying to cut fungicide inputs. Tucker and Hutchens are his doctoral students.",
+ claim:"The link to Couch is mentorship rather than advising — Couch retired in 2003 and died in 2004, before McCall's 2006 master's was conferred — and McCall describes it himself in an interview. His formal doctoral advisor is still unnamed, so the dotted line is what actually connects Couch's program to the two newest faculty in the field.",src:[41,68]},
+
+{id:"tucker",gen:7,status:"active",pt:true,phd:"mccall",ms:"tomaso",conf:"documented",name:"Aaron Tucker",inst:"Auburn",
+ deg:["A.S. East Central Community College","B.S. Agronomy (Golf and Sports Turf Management), Mississippi State","M.S. Plant Pathology, Mississippi State, under Maria Tomaso-Peterson","Ph.D. Plant Pathology, Physiology and Weed Science, Virginia Tech, under David McCall"],
+ roles:["Assistant Professor of Turfgrass Management, Department of Crop, Soil and Environmental Sciences, Auburn University, from August 2025"],
+ note:"Root-infecting fungi of ultradwarf bermudagrass and lance nematode damage to creeping bentgrass; now cultural and chemical management of turf diseases and plant-parasitic nematodes across the deep South. The newest faculty position in this diagram.",
+ claim:"Degrees and institutions from his Auburn profile; both advisors supplied directly and consistent with the institutions.",src:[42]},
+
+{id:"hutchens",gen:7,status:"active",pt:true,phd:"mccall",ms:"kerns",conf:"documented",name:"Wendell Hutchens",inst:"Arkansas",
+ deg:["B.S. Turfgrass Science, NC State","M.S. Turfgrass Pathology, NC State, under Jim Kerns","Ph.D. Turfgrass Pathology, Virginia Tech, under David McCall"],
+ roles:["Assistant Professor, Department of Horticulture, Dale Bumpers College, University of Arkansas"],
+ note:"Master's on post-application irrigation and soil surfactants in fungicide movement against root diseases; doctorate on the biology, epidemiology and management of spring dead spot in bermudagrass. Musser Award of Excellence, 2023. Drones and GPS-guided sprayers alongside conventional practice.",
+ claim:"Both advisors supplied directly. His Musser award coverage names McCall and Kerns among his mentors and gives both degree subjects, which matches.",src:[43,44]},
+
+{id:"abler",gen:4,ms:"couch",conf:"documented",name:"Steve Abler",inst:"UW Diagnostic Lab",kind:"diag",
+ deg:["B.S. UW–Oshkosh, 1999","M.S. Virginia Tech, under Houston Couch"],
+ roles:["Director, Turfgrass Diagnostic Laboratory, O. J. Noer Research Facility, UW–Madison, from 2003"],
+ note:"Trained in a turf pathology lab, then into diagnostics and service rather than a research faculty post. He later wrote the memorial account of Couch that supplies much of the top of this tree.",
+ claim:"His advisor is named explicitly in the profile written when he took the Wisconsin post.",src:[5]},
+
+/* ---- Rhode Island / Yorkshire ---- */
+{id:"howard",gen:2,conf:"root",name:"J. Frank Howard",inst:"Rhode Island",
+ roles:["Chair, Plant Pathology and Entomology, University of Rhode Island"],
+ note:"With Couch, one of the first two full-time university turfgrass pathologists in the United States. A regular visitor to the Sports Turf Research Institute at Bingley, which is how he came to recruit Noel Jackson in 1965.",
+ claim:"His standing and the Jackson hire are documented; his own training is not.",src:[3,6]},
+
+{id:"drewsmith",gen:2,conf:"root",name:"J. Drew Smith",inst:"STRI Bingley",
+ roles:["Turfgrass pathologist, Sports Turf Research Institute, Bingley, to 1958","Later in Canada"],
+ note:"Jackson's predecessor at Bingley; his 1958 departure opened the post that pulled Jackson into turf. Co-author with Jackson of <i>Fungal Diseases of Amenity Turf Grasses</i>.",
+ claim:"The STRI succession is documented. The later Canadian position is from general knowledge and should be confirmed.",src:[6]},
+
+{id:"jackson",gen:3,status:"deceased",conf:"root",name:"Noel Jackson",inst:"Rhode Island",meta:"1931–2018",
+ deg:["B.Sc. Hons Agricultural Botany, King's College, Newcastle upon Tyne","Ph.D. Agronomy, University of Durham"],
+ roles:["Biologist, Sports Turf Research Institute, Bingley, 1958–1965","Assistant to full Professor of Plant Pathology, University of Rhode Island, 1965–c.2003"],
+ succeeds:"drewsmith",succLabel:"took the Bingley post Smith left in 1958",
+ note:"Raised on a Yorkshire farm, the first in his family to attend university. Widely held the finest turf disease diagnostician of his generation; the dollar spot pathogen <i>Clarireedia jacksonii</i> carries his name. He said his proudest accomplishment was watching former students succeed.",
+ claim:"A root because his British doctoral supervisor is not named in any source found.",src:[6,7,8]},
+
+{id:"dernoeden",gen:4,status:"emeritus",phd:"jackson",conf:"documented",name:"Peter H. Dernoeden",inst:"Maryland",
+ deg:["B.S. 1970, M.S. 1976, Colorado State (M.S. under Jack Butler)","Ph.D. Plant Pathology, Rhode Island, 1980, under Noel Jackson"],
+ roles:["Faculty, University of Maryland, 1980–2011","Coordinated the Maryland Turfgrass Disease Diagnostic Laboratory for 28 years"],
+ ms:"butler",
+ note:"U.S. Army 1970–1973 between his two Colorado State degrees. Described bentgrass dead spot and its pathogen <i>Ophiosphaerella agrostis</i>; also a weed scientist, and the origin of split pre- and post-emergent crabgrass programs.",
+ claim:"Dernoeden names Jackson and Butler as his mentors in a retirement interview; degrees and dates match his faculty record.",src:[9,10]},
+
+{id:"butler",gen:3,conf:"root",name:"Jack Butler",inst:"Colorado State",kind:"context",
+ roles:["Faculty, Colorado State University"],
+ note:"Dernoeden's master's advisor, and one of the two men Dernoeden credits with his career.",
+ claim:"Named by Dernoeden; his own training and other students are not documented here.",src:[9]},
+
+{id:"mitkowski",gen:5,status:"active",conf:"documented",name:"Nathaniel Mitkowski",inst:"Rhode Island",
+ deg:["B.S. Plant Pathology, UMass, 1997","Ph.D. Plant Pathology, Cornell, 2001, minors in mycology and plant breeding"],
+ roles:["Professor, University of Rhode Island","Manager, URI Turf Diagnostic Laboratory, since 2001"],
+ succeeds:"jackson",succLabel:"took over turf pathology and diagnostics at URI as Jackson retired",
+ note:"Bacterial wilt of annual bluegrass and creeping bentgrass, turf nematodes in New England, fungicide resistance in <i>Colletotrichum cereale</i>. Now also on beech leaf nematode. Katerina Jordan's doctoral advisor, which carries the Rhode Island line into Canada.",
+ claim:"The Rhode Island succession confirmed directly, and consistent with the dates and the diagnostic lab handover. His own Cornell doctoral advisor is still unnamed, and it was not Eric Nelson, who held the Cornell turf post at the time — confirmed directly. So the line stops going upward here, and his doctorate sits outside the turf program he later joined.",src:[25]},
+
+{id:"landschoot",gen:5,status:"emeritus",phd:"jackson",postdoc:"clarke",conf:"reported",name:"Peter Landschoot",inst:"Penn State",
+ deg:["B.S. Agronomy, Penn State, 1982","M.S. Agronomy, Penn State, 1984","Ph.D. Plant Pathology, University of Rhode Island, 1988"],
+ roles:["Post-doctoral research associate in Plant Pathology, Rutgers, 1988–89","Professor of Turfgrass Science and Extension turfgrass specialist, Penn State, 1989–2024","Director of the agronomy graduate program for over ten years"],
+ note:"Doctoral work on ectotrophic root-infecting fungi causing the patch diseases — Jackson's own territory. Thirty-five years in Penn State extension, latterly on nutrient management and the Chesapeake Bay watershed, and a hand in Pennsylvania's 2022 fertilizer law.",
+ claim:"The Rhode Island doctorate (1988) and the Rutgers postdoc (1988–89) are both on his Penn State profile, and the dates and subject place him with Jackson and then Clarke. Neither mentor is named, so both links need one confirmation.",src:[39,40]},
+
+{id:"kaminski",gen:5,status:"active",phd:"dernoeden",ms:"dernoeden",conf:"documented",name:"John Kaminski",inst:"Penn State",
+ deg:["B.S. Penn State, 1998","M.S. and Ph.D. Plant Pathology, University of Maryland, under Peter Dernoeden"],
+ roles:["Assistant Professor of Turfgrass Pathology, University of Connecticut, and director of its Turfgrass Disease Diagnostic Center","Associate Professor of Turfgrass Science, Penn State","Chief agronomy officer, GreenSight"],
+ note:"Doctoral work on the biology of <i>Ophiosphaerella agrostis</i> and the epidemiology of bentgrass dead spot — the disease his own advisor had described. Won the Musser Award of Excellence.",
+ claim:"Confirmed. Dernoeden is named as his doctoral advisor in the Musser award coverage, and the relationship is corroborated directly.",src:[26]},
+
+{id:"fidanza",gen:5,status:"active",conf:"reported",name:"Michael Fidanza",inst:"Penn State Berks",kind:"offpath",
+ deg:["B.S. Agricultural Science, Penn State","M.Agr. Agronomy, Penn State","Ph.D. Agronomy (Plant and Soil Sciences), University of Maryland"],
+ roles:["Professor of Plant and Soil Sciences, Penn State Berks","Editor, International Turfgrass Society Research Journal"],
+ note:"Turfgrass ecology, fairy ring, soil surfactants, plant health products. An agronomy degree rather than a pathology one, so he sits in the tree as a turf-role graduate of this lineage.",
+ claim:"The Maryland agronomy doctorate overlaps Dernoeden's tenure and his fairy ring work runs parallel, but no source found names his advisor.",src:[27]},
+
+{id:"jordan",gen:5,status:"active",phd:"mitkowski",conf:"documented",name:"Katerina S. Jordan",inst:"Guelph",
+ deg:["B.Sc. Microbiology, University of Maryland","M.Sc. Agronomy, University of Maryland","Ph.D. Plant Sciences, University of Rhode Island, under Nathaniel Mitkowski"],
+ roles:["Associate Professor, Plant Agriculture, University of Guelph","Director, Guelph Turfgrass Institute"],
+ note:"A Maryland master's where Dernoeden taught, then a Rhode Island doctorate under Mitkowski — so she descends from the Jackson line twice over, once through Dernoeden's department and once through Jackson's own successor. Dollar spot alternatives, soil health, turf nematology; runs the GTI diagnostic clinic serving all of Canada.",
+ claim:"Mitkowski confirmed directly as her doctoral advisor; the institutions and degrees match her Guelph profile. Her Maryland master's advisor is still unnamed.",src:[28]},
+
+/* ---- Rutgers ---- */
+{id:"halisky",gen:3,conf:"root",name:"Philip M. Halisky",inst:"Rutgers",
+ roles:["Research professor in turfgrass pathology, Rutgers, from the mid-1960s","Taught in the two-year Professional Golf Turf Management School for more than twenty years"],
+ note:"<i>Helminthosporium</i> diseases of cool-season turf, and an authority on the grass smuts. The turf pathology program Clarke later built sat on Halisky's research foundation, and Rich Buckley — who has run Rutgers' diagnostic lab for decades — did his master's with him.",
+ claim:"Role and era documented in the Rutgers turf program history. Note that the same history names Spence H. Davis, not Halisky, as the extension specialist Clarke replaced in 1981 — Halisky held the research appointment rather than the extension one. His own training is not documented there.",src:[65]},
+
+{id:"sdavis",gen:3,conf:"documented",name:"Spence H. Davis",inst:"Rutgers",
+ roles:["Extension specialist in turf and ornamental pathology, Rutgers, before 1981"],
+ note:"The post Clarke was hired into in 1981. Named only briefly in the program's own history.",
+ claim:"Named in the Rutgers turf program history as the extension specialist Clarke replaced. No degrees or training given there.",src:[65]},
+
+{id:"buckley",gen:4,status:"active",ms:"halisky",conf:"documented",name:"Richard Buckley",inst:"Rutgers",kind:"diag",
+ deg:["M.S. Plant Pathology, Rutgers, begun 1988, under Philip Halisky"],
+ roles:["Director, Rutgers Plant Diagnostic Laboratory and Nematode Detection Service","Principal diagnostician — well over 30,000 plant samples examined","Instructor, Rutgers Professional Golf Turf Management School and the Landscape and Grounds Management program"],
+ note:"Came to Rutgers in 1988 for the master's and never left. He tells the story that Halisky, his boss, simply told him \"You're going to work in turfgrass.\" Thirty thousand samples is a different kind of contribution from a publication record, and the reason this diagram tracks diagnosticians separately.",
+ claim:"Halisky confirmed as his master's advisor, which resolves the ambiguity in the Rutgers profile — that profile calls Halisky his boss. The 1988 start and the sample count are from the same profile.",src:[66]},
+
+{id:"brennan",gen:3,conf:"root",name:"Eileen Brennan",inst:"Rutgers",kind:"context",
+ roles:["Plant pathologist, Rutgers University"],
+ note:"Not a turf pathologist. Clarke's doctoral work with her was on air pollution injury — the abiotic disorders that shaped his later interest in non-infectious problems of turf.",
+ claim:"Clarke names her as his graduate adviser in a Rutgers alumni feature.",src:[11]},
+
+{id:"clarke",gen:4,status:"emeritus",phd:"brennan",
+ succ:[["sdavis","hired in 1981 to replace Davis as extension specialist"],
+       ["halisky","and inherited the turf pathology research program Halisky had built"]],
+ conf:"documented",name:"Bruce B. Clarke",inst:"Rutgers",
+ deg:["B.S. Forest Management, Rutgers, 1977","Ph.D. Plant Pathology, Rutgers, 1982, under Eileen Brennan"],
+ roles:["Extension Specialist in Turfgrass Pathology, Rutgers, 1982–2021","Director, Rutgers Center for Turfgrass Science, 1993–2020","Chair, Plant Biology and Pathology, 1999–2001 and 2012–2014","Emeritus Professor from 2022"],
+ note:"His entire academic life at one institution, starting in the first matriculating class of Cook College in 1973. Primary advisor on 11 doctoral and 11 master's students — among them Lane Tredway, whose own line runs on to NC State and Wisconsin, so a large share of this diagram descends from him by one route or another. Anthracnose, summer patch, dollar spot, gray leaf spot; editor of three editions of the <i>Compendium of Turfgrass Diseases</i>.",
+ claim:"Degrees and advising counts are from his own curriculum vitae.",src:[11,12,13]},
+
+{id:"murphy",gen:4,status:"active",conf:"root",name:"James A. Murphy",inst:"Rutgers",
+ roles:["Extension specialist in turfgrass management, Rutgers, from 1991","Director, Rutgers Center for Turfgrass Science, from 2021"],
+ note:"A turfgrass management specialist rather than a pathologist, and yet co-advisor on five of the doctorates in this diagram — Groben, Hempfling, Inguagiato, Zhang and Schmid — plus Ruying Wang's master's advisor. That makes him second only to Clarke here, and the two of them trained most of the Rutgers generation jointly. His cultural-practice research is where disease management actually gets decided: topdressing, mowing, nitrogen and potassium nutrition, rolling, and the action thresholds in the dollar spot forecast models.",
+ claim:"Confirmed directly as co-advisor on five doctorates and as Wang's master's advisor. His co-authorship on all of that work runs through Clarke's CV. His own training is not documented here.",src:[12,65]},
+
+{id:"nzhang",gen:4,status:"active",conf:"root",name:"Ning Zhang",inst:"Rutgers",
+ roles:["Faculty, Department of Plant Biology and Pathology, Rutgers — plant-associated fungi"],
+ note:"Fungal systematics and molecular detection: she described <i>Magnaporthiopsis meyeri-festucae</i> as the agent of a summer-patch-like disease of fine fescue, and her lab built the real-time PCR assays for <i>Clarireedia</i>. Glen Groben's major doctoral advisor, with Clarke co-advising.",
+ claim:"Confirmed directly as Groben's major advisor. Her collaboration with Clarke, Murphy and Meyer runs through his CV. Her own training is not documented here.",src:[12,65]},
+
+{id:"belanger",gen:4,status:"emeritus",conf:"root",name:"Faith Belanger",inst:"Rutgers",
+ roles:["Faculty, Department of Plant Biology and Pathology, Rutgers — turfgrass endophyte molecular biology, to 2024"],
+ note:"The <i>Epichloë festucae</i> antifungal protein Efe-AfpA, from isolation through to its activity against the dollar spot pathogen and the Rutgers patent application. Ruying Wang's major doctoral advisor, with Clarke co-advising. Retired in 2024, so of the four Rutgers faculty who trained this generation jointly — Clarke, Murphy, Zhang and Belanger — two have now left.",
+ claim:"Confirmed directly as Wang's major advisor and as retiring in 2024; she is senior author on the Efe-AfpA papers in Clarke's CV. Her own training is not documented here.",src:[12,65]},
+
+{id:"crouch",gen:5,status:"active",phd:"clarke",conf:"documented",name:"Jo Anne Crouch",inst:"USDA-ARS",
+ roles:["Research plant pathologist, USDA Agricultural Research Service"],
+ note:"Led the work that split the dollar spot pathogen out of <i>Sclerotinia</i> into the new genus <i>Clarireedia</i> in 2018, ending a controversy about seventy-five years old. Now trains postdocs of her own — Glen Groben among them, which closes a loop back into the Rutgers lab she came from.",
+ claim:"Clarke confirmed directly as her doctoral advisor, resolving what his CV left ambiguous between students and postdoctoral fellows.",src:[12]},
+
+{id:"beirn",gen:5,status:"active",phd:"clarke",conf:"documented",name:"Lisa A. Beirn",inst:"Syngenta",
+ roles:["Doctoral work at Rutgers on dollar spot taxonomy and turf rhizosphere communities","Syngenta"],
+ note:"Co-author on the <i>Clarireedia</i> paper that renamed the dollar spot pathogen. GCSAA Watson Fellowship and a Gerald O. Mott scholarship as a Rutgers doctoral candidate. Now at Syngenta, with Tredway and Doherty.",
+ claim:"Clarke confirmed directly as her doctoral advisor; Rutgers news confirms her as a doctoral candidate in his department. The Syngenta move supplied directly.",src:[12,14]},
+
+{id:"hempfling",gen:5,status:"active",phd:"clarke",coadv:"murphy",conf:"documented",name:"James W. Hempfling",inst:"Envu",
+ roles:["Doctoral work at Rutgers on anthracnose and dollar spot management in annual bluegrass and bentgrass","Envu"],
+ note:"Cultivation timing, topdressing, and the action thresholds in the dollar spot forecasting model. One of three Clarke students now at Envu, alongside Zhang and Shahoveisi.",
+ claim:"Clarke as major advisor and Murphy as co-advisor both confirmed directly — the co-authorship pattern did reflect shared advising here.",src:[12]},
+
+{id:"schmid",gen:7,status:"active",pt:true,phd:"clarke",coadv:"murphy",conf:"documented",name:"Charles J. Schmid",inst:"Oregon State",
+ roles:["Doctoral work at Rutgers on nitrogen and potassium nutrition in anthracnose of annual bluegrass","Turfgrass faculty, Oregon State University"],
+ succeeds:"kowalewski",succLabel:"took over turfgrass at Oregon State when Kowalewski moved to urban ecology",
+ note:"One of two Clarke students who passed through the same Oregon State program — he took the turfgrass appointment itself when Kowalewski shifted into urban ecology, while Ruying Wang had been there as Kowalewski's postdoc. The Rutgers line reaches the Pacific Northwest twice over, independently.",
+ claim:"Clarke as major advisor and Murphy as co-advisor both confirmed directly. The Oregon State appointment and the reason for the handover also supplied directly.",src:[12]},
+
+{id:"rwang",gen:7,status:"active",pt:true,phd:"belanger",coadv:"clarke",ms:"murphy",postdoc:"kowalewski",succeeds:"vargas",conf:"documented",name:"Ruying Wang",inst:"Michigan State",
+ succLabel:"holds turfgrass pathology at Michigan State after Vargas",
+ deg:["M.S. Rutgers University, under James Murphy","Ph.D. Rutgers University, under Faith Belanger, co-advised by Bruce Clarke"],
+ roles:["Doctoral work on the <i>Epichloë festucae</i> antifungal protein and topdressing effects on anthracnose","Postdoctoral research with Alec Kowalewski, Oregon State University","Turfgrass pathology, Michigan State University"],
+ note:"Five ties, the most of anyone here: a master's under Murphy, a doctorate chaired by Belanger with Clarke co-advising, an Oregon State postdoc under Kowalewski, and now Vargas's position at Michigan State — four Rutgers faculty and two other institutions in one career. Her doctoral work on the <i>Epichloë</i> antifungal protein fed the Rutgers patent application for using it against dollar spot.",
+ claim:"Murphy as master's advisor, Belanger as doctoral chair and Clarke as co-advisor all confirmed directly, correcting an earlier single attribution to Clarke. The Kowalewski postdoc and the Michigan State succession were also supplied directly; her Michigan State profile is behind bot protection, so the appointment is not independently quoted here.",src:[12,61]},
+
+{id:"rogers",gen:4,status:"active",conf:"root",name:"John “Trey” Rogers III",inst:"Michigan State",kind:"offpath",
+ deg:["B.S. Agronomy (after starting in engineering)","M.S. University of Arkansas, 1985","Ph.D. Pennsylvania State University"],
+ roles:["Joined the Michigan State faculty in 1988","Professor of Turfgrass Management, Department of Plant, Soil and Microbial Sciences","Coordinator, sports turf program, from 2014"],
+ note:"A sports turf and turf management program, not a pathology one, so he enters this diagram as the advisor who trained Kowalewski. Lead scientist for the indoor turf at the Pontiac Silverdome for the 1994 World Cup, the Spartan Stadium conversion, and consulting for the 2004 and 2008 Olympics. Says he has advised and graduated more than 1,100 students.",
+ claim:"Degrees and career from a long interview; his own doctoral advisor at Penn State is not named there.",src:[58]},
+
+{id:"kowalewski",gen:5,status:"active",phd:"rogers",ms:"rogers",conf:"documented",name:"Alec Kowalewski",inst:"Oregon State",kind:"offpath",
+ deg:["M.S. and Ph.D., Michigan State University, both under John “Trey” Rogers III"],
+ roles:["Teaching, Abraham Baldwin Agricultural College","Research scientist, University of Georgia turf breeding program, Tifton","Resident consultant, 2008 Olympic Games, Beijing","Turfgrass Specialist, Oregon State University, from 2013","Professor and Grover Family Endowed Sustainable Urban Landscapes Specialist — urban ecology rather than turfgrass"],
+ note:"A turf management and weed science program rather than a pathology one, so he appears here as a postdoctoral mentor — he trained Ruying Wang after her Rutgers doctorate. Organic weed control, sports turf, sod production, sustainable cultivars. He has since moved into urban ecology, handing turfgrass at Oregon State to Schmid.",
+ claim:"Both Michigan State degrees are documented in his Oregon State appointment announcement; Rogers as the advisor on both was supplied directly. Note this puts him in the Michigan State sports turf line, not the Vargas pathology line.",src:[45,46]},
+
+{id:"groben",gen:5,status:"active",phd:"nzhang",coadv:["clarke","murphy"],postdoc:"crouch",conf:"documented",name:"Glen Groben",inst:"USDA-ARS",
+ deg:["Ph.D. Rutgers University, under Ning Zhang, co-advised by Bruce Clarke and James Murphy"],
+ roles:["Real-time PCR detection and the vertical and horizontal distribution of <i>Clarireedia</i> species; turf mycobiome under drought stress","Postdoctoral research under Jo Anne Crouch, USDA Agricultural Research Service"],
+ note:"Four ties and a loop: Zhang chaired, Clarke and Murphy co-advised, and his postdoc is with Crouch — who was herself Clarke's doctoral student. The Rutgers lab's output returning to it one generation later.",
+ claim:"Zhang as major advisor, Clarke and Murphy as co-advisors, and the Crouch postdoc all confirmed directly, correcting an earlier single attribution to Clarke.",src:[12]},
+
+{id:"pzhang",gen:5,status:"active",phd:"clarke",coadv:"murphy",conf:"documented",name:"Pingyuan Zhang",inst:"Envu",
+ roles:["Doctoral work at Rutgers on dollar spot forecasting and fungicide scheduling","Envu"],
+ note:"Action thresholds for the Smith-Kerns dollar spot model on creeping bentgrass cultivars, and curative threshold scheduling for fairway turf — the applied end of the forecasting work that runs through several generations of this lineage. Now at Envu with Hempfling and Shahoveisi.",
+ claim:"Clarke as major advisor and Murphy as co-advisor both confirmed directly; her work appears under both names in Clarke's CV. The Envu move supplied directly.",src:[12]},
+
+{id:"inguagiato",gen:5,status:"active",phd:"clarke",coadv:"murphy",ms:"clarke",conf:"documented",name:"John Inguagiato",inst:"Connecticut",
+ deg:["M.S. and Ph.D., Rutgers University, both under Bruce Clarke, doctorate co-advised by James Murphy"],
+ roles:["Turfgrass pathologist, University of Connecticut"],
+ succeeds:"kaminski",succLabel:"holds the UConn turf pathology post Kaminski left for Penn State",
+ note:"Both graduate degrees at Rutgers, then into the Connecticut post Kaminski vacated — which puts the Rutgers and Maryland lines in the same chair one after the other. His long-running co-authorship with Clarke and Murphy on anthracnose best management practices for annual bluegrass putting greens reflects both advisors.",
+ claim:"Clarke confirmed directly as advisor on both degrees and Murphy as doctoral co-advisor, which resolves what Clarke's CV left ambiguous. The decade of joint publication corroborates both.",src:[12]},
+
+/* ---- Georgia → NC State → Wisconsin ---- */
+{id:"burpee",gen:3,status:"emeritus",conf:"root",name:"Lee L. Burpee",inst:"Georgia, Griffin",
+ roles:["University of Guelph, to about 1992","Professor, University of Georgia Experiment Station, Griffin"],
+ note:"Rhizoctonia biology in turf, and author with Martinez-Espinoza of the Georgia turf disease reference guides.",
+ claim:"The Guelph-to-Georgia move is documented; his own doctoral training is not.",src:[15,16]},
+
+{id:"lucas",gen:3,conf:"root",name:"Leon T. Lucas",inst:"NC State",
+ roles:["Founded the turfgrass pathology program at North Carolina State University, 1969"],
+ note:"The NC State program he started in 1969 has since trained more than thirty-five graduate students. Bruce Martin's doctoral advisor.",
+ claim:"The program's founding date is on its own site; the Martin advising link is named in Martin's memorial.",src:[29,30]},
+
+{id:"martin",gen:4,status:"deceased",phd:"lucas",conf:"documented",name:"S. Bruce Martin",inst:"Clemson",meta:"1954–2025",
+ deg:["B.S. Biology, Hendrix College, 1976","M.S. Plant Pathology, University of Arkansas","Ph.D. Plant Pathology, NC State, under Leon Lucas"],
+ roles:["Research station, Connecticut, to 1987","Established a turf diagnostics lab at Horry-Georgetown Technical College, 1987","Clemson University, 1988–2019, latterly turfgrass pathology at the Pee Dee Research and Education Center"],
+ note:"Called the first turfgrass pathologist in the South to take on the problems nobody had named yet. Co-identified rapid blight in 2001. Inducted into the Myrtle Beach Golf Hall of Fame shortly before his death.",
+ claim:"Lucas is named as his doctoral advisor in his memorial.",src:[30,31]},
+
+{id:"amartinez",gen:4,status:"active",conf:"documented",name:"Alfredo Martinez-Espinoza",inst:"Georgia",
+ deg:["B.S. Agronomy and Plant Pathology, Universidad Agraria Antonio Narro, Mexico, 1985","Ph.D. Plant Pathology, Montana State University, 1993"],
+ roles:["Professor and Extension Plant Pathologist — turfgrass, small grains and non-legume forages, University of Georgia"],
+ succeeds:"burpee",succLabel:"took Georgia's turf pathology extension work after Burpee",
+ note:"Co-author with Burpee of the Georgia turf disease reference guides, in English and Spanish, before taking over the program. His appointment spans all commercial turfgrass — golf, lawn care, sod, sports fields — alongside small grains and forages, and he now shares the turf pathology work with Bahri.",
+ claim:"The succession supplied directly, and corroborated by the guides he co-authored with Burpee. His Montana State doctoral advisor is still unnamed.",src:[63,15]},
+
+{id:"bahri",gen:5,status:"active",conf:"root",name:"Bochra Amina Bahri",inst:"Georgia, Griffin",
+ roles:["Associate Professor of Turfgrass and Forage Pathology, Department of Plant Pathology and the Institute of Plant Breeding, Genetics and Genomics, University of Georgia, Griffin"],
+ succeeds:"burpee",succLabel:"shares Georgia's turf pathology appointment, on Burpee's Griffin campus",
+ note:"Based at the Turfgrass Research and Education Center at Griffin — Burpee's own campus — and jointly appointed in pathology and in plant breeding and genomics, which is a newer shape for these posts. Shares the turf pathology appointment with Martinez-Espinoza.",
+ claim:"The shared appointment supplied directly. A root here: no source found gives her degrees or doctoral advisor.",src:[64]},
+
+{id:"tredway",gen:4,status:"active",phd:"burpee",ms:"clarke",conf:"documented",name:"Lane P. Tredway",inst:"Syngenta",
+ deg:["M.S. Rutgers University, under Bruce Clarke","Ph.D. University of Georgia, 2002 — population genetics of <i>Magnaporthe grisea</i> on Georgia turfgrasses"],
+ roles:["Turfgrass pathologist, North Carolina State University, 2002–2012","Technical services, Syngenta, from 2012"],
+ succeeds:"lucas",succLabel:"took the NC State turf pathology program Lucas founded",
+ note:"Gray leaf spot, spring dead spot, summer patch. Lead editor of the fourth edition of the <i>Compendium of Turfgrass Diseases</i> (2023). His master's under Clarke is the link that makes Rutgers an ancestor of the NC State and Wisconsin programs as well as its own: Kerns, Koch, Lee Miller, Roberts, Hutchens and Dant all descend from him.",
+ claim:"Clarke confirmed directly as his master's advisor, and Clarke's CV records eleven master's students. The UGA dissertation is in the Georgia repository; papers from it are co-authored with Burpee and K. L. Stevenson, identifying the doctoral committee.",src:[12,17,18]},
+
+{id:"kerns",gen:5,status:"active",phd:"tredway",conf:"documented",name:"Jim P. Kerns",inst:"NC State",
+ deg:["B.S. Agronomy, NC State, 2002","M.S. Soil and Crop Sciences, Texas A&M","Ph.D. Plant Pathology, NC State, 2008, under Lane Tredway"],
+ roles:["Turfgrass pathologist, University of Wisconsin–Madison, 2008–2012","Professor and Extension Specialist, NC State, from 2012","Departmental Extension Leader, Entomology and Plant Pathology"],
+ succ:[["jung","took the Wisconsin turf pathology post in 2008 when Jung left for UMass"],
+       ["tredway","then succeeded his own advisor at NC State in 2012 when Tredway left for Syngenta"]],
+ note:"Doctoral work on Pythium root dysfunction. Co-editor of the fourth edition of the <i>Compendium</i>, alongside Tredway. He inherited two posts in four years — Jung's at Wisconsin and then his own advisor's at NC State — and left behind in Wisconsin a student, Koch, who had started under Jung and finished under him.",
+ claim:"Advisor and dates stated on his NC State faculty page and in the profile written when he arrived in Wisconsin; the Jung succession confirmed directly.",src:[19,20]},
+
+{id:"mccarty",gen:4,status:"active",conf:"root",name:"Lambert B. McCarty",inst:"Clemson",kind:"offpath",
+ roles:["Professor of turfgrass science, Clemson University"],
+ note:"A turfgrass weed science and management program rather than a pathology one, so he enters this diagram as the chair of Lukas Dant's doctorate — with Kerns and Roberts co-advising the pathology side from NC State and Clemson.",
+ claim:"Confirmed directly as Dant's major advisor. His own training is not documented here.",src:[]},
+
+{id:"dant",gen:5,status:"active",phd:"mccarty",coadv:["kerns","roberts"],conf:"documented",name:"Lukas Dant",inst:"Syngenta",
+ deg:["Ph.D. Clemson University, under Lambert B. McCarty, co-advised by Jim Kerns and Joseph Roberts"],
+ roles:["Syngenta"],
+ note:"Three advisors across two institutions and two disciplines: McCarty chairing in weed science at Clemson, Kerns at NC State and Roberts at Clemson covering pathology. The clearest example yet of a doctorate assembled from more than one program, and the only person here co-advised by two people who are themselves advisor and advisee — Kerns trained Roberts.",
+ claim:"All three advising relationships supplied directly. Worth one citation each before circulation; no public source found names the committee.",src:[]},
+
+{id:"lbutler",gen:5,status:"active",ms:"tredway",conf:"documented",name:"Lee Butler",inst:"NC State",kind:"diag",
+ deg:["M.S., North Carolina State University, under Lane Tredway"],
+ roles:["Manager, Turfgrass Diagnostic Lab, NC State University, in Kerns' turf pathology program"],
+ note:"Trained by Tredway, then stayed on to run the diagnostic lab through the handover of the faculty post from Tredway to Kerns — the kind of continuity that doesn't show up in an advising tree but holds a program together.",
+ claim:"Tredway confirmed directly as his master's advisor. His management of the NC State diagnostic lab is stated on Kerns' faculty page.",src:[19]},
+
+{id:"hockemeyer",gen:5,status:"active",ms:"latin",conf:"documented",name:"Kurt Hockemeyer",inst:"Wisconsin",kind:"diag",
+ deg:["B.S. Turfgrass Science, Purdue University, 2011","M.S. Turfgrass Pathology, Purdue University, 2014, under Rick Latin"],
+ roles:["Turfgrass Outreach Specialist, Department of Plant Pathology, University of Wisconsin–Madison","Manager, UW Turfgrass Diagnostic Lab","Runs the UW Turfgrass Fungicide Testing Program"],
+ note:"Purdue-trained, now running what he calls one of the few diagnostic labs in the country dedicated solely to turfgrass — about 200 samples a year from across the continental United States. The Wisconsin diagnostic lab has been a step in several careers here: Abler, then Koch, now Hockemeyer.",
+ claim:"Latin confirmed directly as his master's advisor; the Purdue degrees and his Wisconsin role are on the Koch lab page.",src:[67]},
+
+{id:"koch",gen:5,status:"active",phd:"kerns",ms:"jung",conf:"documented",name:"Paul L. Koch",inst:"Wisconsin",
+ deg:["M.S. University of Wisconsin–Madison, under Geunhwa Jung","Ph.D. University of Wisconsin–Madison, under Jim Kerns"],
+ roles:["Manager, UW Turfgrass Diagnostic Lab, eight years","Turfgrass Pathologist, Department of Plant Pathology, UW–Madison, from 2013"],
+ succeeds:"kerns",succLabel:"succeeded his own doctoral advisor in the Wisconsin faculty post",
+ note:"Snow mold, dollar spot, pesticide fate. Two advisors without changing institution: Jung recruited him at twenty-two to run the diagnostic lab and chaired his master's, then left for UMass; Kerns arrived in the same post and chaired his doctorate; then Koch took that post himself. One Wisconsin chair, three occupants, and he trained under two of them.",
+ claim:"Jung as master's advisor and Kerns as doctoral advisor both confirmed directly. His first column as turf pathologist names Kerns as his major advisor and credits Jung with recruiting him.",src:[21]},
+
+{id:"leemiller",gen:5,status:"active",phd:"tredway",ms:"burpee",conf:"documented",name:"Lee Miller",inst:"Purdue",
+ deg:["M.S. University of Georgia, under Lee Burpee","Ph.D. North Carolina State University, under Lane Tredway"],
+ roles:["University of Missouri, 2010–2021","Assistant Professor of Turfgrass Pathology, Purdue University, from January 2022"],
+ succeeds:"latin",succLabel:"took the Purdue turf pathology program from Rick Latin",
+ note:"Both halves of the Georgia–NC State line in sequence: master's with Burpee, doctorate with Burpee's own student. Then into Latin's chair at Purdue, which makes him the one person here tied to three of the diagram's separate root lines. Fungicide resistance in dollar spot, fairy ring biology, spring dead spot, <i>Pythium</i> in irrigation water; now nematode dynamics in putting greens and black layer etiology.",
+ claim:"Both advising relationships and the Latin succession supplied directly, and consistent with his publication record and the Purdue appointment announcement.",src:[32]},
+
+{id:"rioux",gen:5,status:"active",phd:"kerns",conf:"documented",name:"Renée Rioux",inst:"BASF",kind:"offpath",
+ deg:["B.S. Biology and M.S. Plant Pathology, University of Maine–Orono","Ph.D. Plant Pathology, University of Wisconsin–Madison, under Jim Kerns"],
+ roles:["Crop Protection Manager, NewLeaf Symbiotics, 2014–2017","Product Development Manager, Bayer Crop Science, 2017–2019","Administrative Director, Wisconsin Seed Potato Certification Program, 2019–","BASF"],
+ note:"Trained in turf pathology during Kerns' Wisconsin years and co-wrote a run of trade-press columns with him, then through industry and potato certification to BASF — in scope here as a turf-lab graduate whose career went elsewhere.",
+ claim:"The Wisconsin doctorate is documented; Kerns as her advisor and the BASF position were supplied directly.",src:[47]},
+
+{id:"roberts",gen:5,status:"active",phd:"kerns",ms:"clarke",conf:"documented",name:"Joseph Roberts",inst:"Clemson",
+ deg:["B.S. Biological Sciences and B.A. Chemistry, NC State, 2007","M.S. Plant Biology and Pathology, Rutgers, 2009, under Bruce Clarke","Ph.D. Plant Pathology, NC State, 2014, under Jim Kerns"],
+ roles:["Turfgrass pathology, University of Maryland, after Dernoeden","Associate Professor of Turfgrass Pathology and Nematology, Extension Specialist, Clemson University, Pee Dee Research and Education Center"],
+ succ:[["dernoeden","took the Maryland turf pathology post after Dernoeden retired"],
+       ["martin","then the Clemson Pee Dee post Martin held for 31 years"]],
+ note:"Four ties, and the clearest case of why this diagram is not a tree: a Rutgers master's under Clarke, an NC State doctorate under Kerns, then Dernoeden's chair at Maryland, then Martin's at Clemson. Four separate lineages running through one career. Microbiome work on plant–microbe and microbe–microbe interactions in disease management.",
+ claim:"Degrees and institutions from his Clemson profile; both advisors and the Maryland post supplied directly.",src:[33,30]},
+
+{id:"doherty",gen:5,status:"active",phd:"roberts",postdoc:"kerns",conf:"reported",name:"Joseph R. Doherty",inst:"Syngenta",
+ deg:["Ph.D. Plant Science and Landscape Architecture, University of Maryland, 2021 — <i>Investigating Cultural Practices to Improve the Efficacy and Reliability of Introduced Biological Control Organisms in Turfgrass Systems</i>"],
+ roles:["Brief postdoctoral research with Jim Kerns, NC State University","Syngenta"],
+ note:"The only student to come out of Roberts' Maryland years in this diagram, on biological control organisms in turf — close to Roberts' own microbial-community work. Then a short postdoc with Kerns, who had been Roberts' own doctoral advisor, before Syngenta, where he joins Tredway and Beirn. Advisor and advisor's advisor, in sequence.",
+ claim:"Roberts and the brief Kerns postdoc both supplied directly, and the dissertation subject corroborates the Roberts link. Worth noting the dissertation of record names Angus Murphy, the department professor, as director — a common arrangement when the research advisor holds an adjunct or non-degree-granting appointment, as Roberts does at Maryland now.",src:[62]},
+
+{id:"shahoveisi",gen:5,status:"active",conf:"root",name:"Fereshteh Shahoveisi",inst:"Envu",
+ roles:["Turfgrass pathology, University of Maryland, after Roberts","Envu"],
+ succeeds:"roberts",succLabel:"took the Maryland turf pathology post when Roberts left for Clemson",
+ note:"Third in the Maryland succession after Dernoeden and Roberts, and the second of the two to leave it — part of a visible drift from this field's university posts into industry. Her own training is not documented here.",
+ claim:"The Maryland succession and the move to Envu were supplied directly; no source found gives her degrees or advisor.",src:[]},
+
+{id:"chou",gen:7,status:"active",pt:true,postdoc:"koch",conf:"documented",name:"Ming-Yi Chou",inst:"Rutgers",
+ deg:["Ph.D. Horticultural Biology, Cornell University"],
+ roles:["Postdoctoral research, University of Wisconsin–Madison, with Paul Koch, and at the Great Lakes Bioenergy Center, Michigan State","Research Scientist in turfgrass pathology, UW–Madison","Assistant Extension Specialist in Turfgrass Pathology, Rutgers, from 2023","Incoming Chair, APS Turfgrass Pathology Committee"],
+ succeeds:"clarke",succLabel:"holds the Rutgers turf pathology extension post after Clarke's retirement",
+ note:"Dollar spot suppressive microbiome and snow mold predictive models at Wisconsin; rapid detection of <i>Magnaporthiopsis meyeri-festucae</i> with Koch and the Rutgers group. A Cornell doctorate outside pathology, so his research lineage starts with the Wisconsin postdoc.",
+ claim:"The Cornell doctorate and Wisconsin postdoc are on the Rutgers announcement; Koch as his postdoctoral mentor supplied directly and consistent with their joint publications.",src:[34,12]},
+
+/* ---- Michigan State ---- */
+{id:"vargas",gen:3,status:"deceased",conf:"root",name:"Joseph M. Vargas Jr.",inst:"Michigan State",meta:"d. 2024",
+ deg:["B.S. Agronomy, University of Rhode Island, 1963","M.S. Plant Pathology, Oklahoma State, 1965","Ph.D. Plant Pathology, University of Minnesota, 1968"],
+ roles:["Professor of Plant Pathology and Turfgrass Management, Michigan State University, 1968–2024"],
+ note:"Fifty-six years in one department. Author of <i>Management of Turfgrass Diseases</i>. He counted as his best work the demonstration that annual bluegrass dies in summer from disease rather than heat. Michigan State endowed the Joe Vargas Chair in Turfgrass Pathology in 2022, and Ruying Wang now holds turf pathology there. Note his undergraduate degree is from Rhode Island, in Howard's department, the year before Jackson arrived.",
+ claim:"A root because his Minnesota doctoral advisor is not named in the obituaries or award citations found. The degrees and years are consistent across several sources.",src:[22,23]},
+
+{id:"giordano",gen:4,status:"active",ms:"vargas",conf:"documented",name:"Paul R. Giordano",inst:"Harrell's",
+ deg:["B.S. Crop and Soil Sciences, MSU, 2008","M.S. Plant Pathology, MSU, 2010, under Joseph M. Vargas Jr."],
+ roles:["Doctoral work at Michigan State on bacterial etiolation of creeping bentgrass caused by <i>Acidovorax avenae</i>","Harrell's"],
+ note:"Master's thesis on <i>S. homoeocarpa</i> pathogenicity and lightweight rolling for dollar spot suppression. Now in industry, like most of the Clarke and Vargas graduates of his cohort.",
+ claim:"His MSU profile names Vargas as advisor and gives the thesis title. His doctoral advisor is not stated there.",src:[24]},
+
+/* ---- Wisconsin chair line ---- */
+{id:"worf",gen:3,conf:"root",name:"Gayle Worf",inst:"Wisconsin",
+ roles:["Turfgrass pathology, University of Wisconsin–Madison, through the 1980s"],
+ note:"Much of the early work on necrotic ring spot, and first in the modern succession of the Wisconsin turf pathology post.",
+ claim:"Named by Koch as the start of the modern Wisconsin line; his own training is not documented here.",src:[21]},
+
+{id:"jung",gen:4,status:"active",conf:"root",name:"Geunhwa Jung",inst:"UMass Amherst",
+ roles:["Turfgrass pathology, University of Wisconsin–Madison, early 2000s","University of Massachusetts Amherst"],
+ succeeds:"worf",succLabel:"held the Wisconsin turf pathology post after Worf and Maxwell",
+ note:"Brought genetics-based work on gray snow mold and dollar spot to Wisconsin, recruited Paul Koch into the program and chaired his master's, then left for UMass — where Kerns took the vacated post and finished Koch's doctorate. Co-author on the turf chapter of <i>Fungicide Resistance in North America</i>.",
+ claim:"Confirmed directly as Koch's master's advisor and as the predecessor Kerns replaced at Wisconsin. His own training is not documented here.",src:[21,35]},
+
+/* ---- Mississippi State ---- */
+{id:"tomaso",gen:4,status:"emeritus",conf:"root",name:"Maria Tomaso-Peterson",inst:"Mississippi State",
+ deg:["B.Sc., M.Sc. and Ph.D., all Mississippi State University"],
+ roles:["Professor Emerita, turfgrass pathogens, Mississippi State University","Co-editor, fourth edition of the Compendium of Turfgrass Diseases (2023)"],
+ note:"Three degrees and an entire career at one institution. Turf disease management and biological control, and a teaching course on turfgrass diseases. Aaron Tucker, now at Auburn, did his master's with her before his Virginia Tech doctorate.",
+ claim:"The three Mississippi State degrees are on her department profile, but no advisor is named and no year is given — so she is a root until someone supplies her own major professor.",src:[48]},
+
+/* ---- Purdue / Florida ---- */
+{id:"latin",gen:4,status:"emeritus",conf:"root",name:"Richard Latin",inst:"Purdue",
+ roles:["Professor of Plant Pathology, Purdue University","APS Fellow"],
+ note:"Turfgrass fungicide performance and disease control efficacy; author of <i>A Practical Guide to Turfgrass Fungicides</i>. Ran Purdue turf pathology until Lee Miller arrived in 2022, and trained Harmon, who holds Florida's turf pathology post, and Hockemeyer, who runs Wisconsin's diagnostic lab.",
+ claim:"A root here: the APS Fellow citation that would give his own degrees and advisor sits behind a members-only login.",src:[36]},
+
+{id:"harmon",gen:5,status:"active",phd:"latin",conf:"documented",name:"Philip Harmon",inst:"Florida",
+ deg:["B.S. Plant Science, Purdue, 1999","Ph.D. Plant Pathology, Purdue, 2003, under Rick Latin"],
+ roles:["Professor of Plant Pathology and Extension Specialist, University of Florida"],
+ note:"Diseases of warm-season turfgrass, and disease management in southern highbush blueberry. Rapid diagnostics, fungicide evaluation, application timing. One of two Latin students here, alongside Hockemeyer — which makes Purdue the origin of both Florida's turf pathology program and Wisconsin's diagnostic lab.",
+ claim:"Latin confirmed directly as his doctoral advisor. Both Purdue degrees and their dates are on his Florida faculty page.",src:[37]},
+
+{id:"tisserat",gen:4,conf:"root",name:"Ned Tisserat",inst:"Kansas State → Colorado State",
+ roles:["Turfgrass pathologist, Department of Plant Pathology, Kansas State University","Later Colorado State University"],
+ note:"Ran turf pathology at Kansas State through the 1990s and early 2000s — spring dead spot, fairy ring, and the nematode work his students carried on. Derek Settle's doctoral advisor, with turf scientist Jack Fry co-mentoring and nematologist Tim Todd on the committee.",
+ claim:"Named as Settle's mentor in Settle's own 2006 CDGA article. A root here: no source found gives Tisserat's own degrees or advisor.",src:[60]},
+
+{id:"settle",gen:5,status:"active",phd:"tisserat",postdoc:"burpee",succeeds:"kane",conf:"documented",name:"Derek Settle",inst:"CDGA",
+ succLabel:"took the CDGA turf program from Kane in 2006, and leads it again now",
+ deg:["B.S. Horticulture, Kansas State, 1997","M.S. Horticulture, Kansas State, 2000","Ph.D. Plant Pathology, Kansas State, 2004, under Ned Tisserat"],
+ roles:["Postdoctoral research, University of Georgia–Griffin, 2005, with Lee Burpee and Paul Raymer","Director of Turfgrass Programs, Chicago District Golf Association, 2006–2012","Technical Service Specialist, Green Solutions Team, Bayer CropScience, from 2013","Leading the CDGA turfgrass program again in a second stint"],
+ note:"A Kansas State doctorate on lance nematodes, then into the Georgia line by postdoc — susceptibility of seashore paspalum to <i>Sclerotinia homoeocarpa</i>. The only person in this diagram to hold the same position twice, with six years in industry in between.",
+ claim:"The Burpee postdoc is named in the Bayer announcement; Tisserat and Fry as his Kansas State mentors are named in his own CDGA article; the two CDGA stints are on the CDGA program page.",src:[38,55,60]},
+
+/* ---- CDGA: a non-academic program that has employed six turf pathologists ---- */
+{id:"kane",gen:4,phd:"smiley",conf:"documented",name:"Randy Kane",inst:"CDGA",
+ deg:["Ph.D. under Richard W. Smiley, Cornell University"],
+ roles:["Founding director of the Chicago District Golf Association turfgrass program, from 1985","Turf Program Advisor, CDGA, from 2006"],
+ note:"Hired in 1985 to give member clubs rapid on-site diagnostics — one of the earliest turf pathology posts outside a university, and the start of a line that has run for forty years. Nematodes in Chicago-area sand greens: stunt, ring, spiral and cyst, which is Smiley's own territory carried into a golf association. His doctorate is the only advising edge reaching into the CDGA line: everything below him there is succession.",
+ claim:"Smiley confirmed directly as his doctoral advisor, which matches Smiley's Cornell turf pathology years (1973–1982) against Kane's 1985 CDGA start. The CDGA program page gives that start date and the 2006 move to advisor but no degrees.",src:[55,60]},
+
+{id:"nangle",gen:5,status:"active",succeeds:"settle",conf:"documented",name:"Edward Nangle",inst:"Ohio State ATI",
+ succLabel:"led the CDGA program after Settle's first stint",
+ roles:["Director of turfgrass programs, Chicago District Golf Association, 2013–2016","Split appointment, Ohio State ATI and Horticulture and Crop Science, from 2016"],
+ note:"The link between the two lineages added here: he left the CDGA program for Ohio State in 2016, where he works on turfgrass science and plant physiology.",
+ claim:"Both the CDGA dates and the Ohio State appointment year are on the two institutions' own pages.",src:[55,56]},
+
+{id:"benelli",gen:5,status:"active",phd:"horvath",succeeds:"nangle",conf:"reported",name:"Jesse Benelli",inst:"Envu",
+ succLabel:"led the CDGA program after Nangle",
+ deg:["M.S. and Ph.D. in turfgrass and plant pathology, University of Tennessee"],
+ roles:["Director of turfgrass programs, Chicago District Golf Association, 2017–2018","Technical expert, Bayer Turf and Ornamentals, Canada","Green Solutions Team, southern region"],
+ note:"Tennessee graduate degrees during Horvath's tenure, then the CDGA post, then the same industry team Settle had joined — the Michigan State line arriving at the CDGA by way of Knoxville.",
+ claim:"The Tennessee degrees and the CDGA and Bayer roles are documented. Horvath as his advisor follows from the institution and dates but is not stated in the sources found.",src:[55,59]},
+
+{id:"kerr",gen:5,succeeds:"benelli",conf:"documented",name:"Bobby Kerr",inst:"Quali-Pro, to 2025",
+ succLabel:"led the CDGA program after Benelli",
+ roles:["Director of turfgrass programs, Chicago District Golf Association, 2019–2021","Quali-Pro, 2023–2025"],
+ note:"Held the CDGA post between Benelli and Settle's return, then two years in industry at Quali-Pro. The only person in this diagram whose current position is not recorded, so he carries no career status either way.",
+ claim:"The CDGA dates are on its program page, which gives no degrees or training for any of its directors. The Quali-Pro years were supplied directly; where he went after 2025 is not recorded here.",src:[55]},
+
+/* ---- Ohio State: a position lineage, not an advising one ---- */
+{id:"larson",gen:3,conf:"root",name:"Phil Larson",inst:"Ohio State",
+ roles:["Turfgrass pathologist, Department of Plant Pathology, Ohio State University, mid-1980s"],
+ note:"First in the turf pathology succession at Ohio State as the program's own history records it.",
+ claim:"Named in the Ohio State turf program history; no degrees or training given there.",src:[56]},
+
+{id:"shane",gen:4,succeeds:"larson",conf:"documented",name:"William Shane",inst:"Ohio State",
+ succLabel:"turf pathology at Ohio State after Larson",
+ roles:["Turfgrass pathologist, Department of Plant Pathology, Ohio State, late 1980s–1990s"],
+ claim:"The Ohio State program history gives the sequence; it gives no degrees or advisors.",src:[56]},
+
+{id:"rimelspach",gen:4,conf:"root",name:"Joseph Rimelspach",inst:"Ohio State",
+ roles:["Turfgrass extension plant pathologist, Department of Plant Pathology, Ohio State, late 1980s–1990s onward"],
+ note:"The long-serving extension half of Ohio State turf pathology, alongside Boehm's research appointment.",
+ claim:"Named in the Ohio State program history; no degrees or training given there.",src:[56]},
+
+{id:"boehm",gen:4,conf:"root",name:"Michael Boehm",inst:"Ohio State",
+ roles:["Turfgrass pathologist, Department of Plant Pathology, Ohio State, late 1980s–1990s onward"],
+ note:"A co-author on the <i>Clarireedia</i> genus paper and the dollar spot genome resources with Crouch, Beirn, Clarke, Kerns and Tredway — the point where the Ohio State program joins the Rutgers and NC State work.",
+ claim:"Named in the Ohio State program history, and his collaboration with the Rutgers and NC State groups is on the published record. His own training is not documented here.",src:[12,56]},
+
+{id:"shwu",gen:7,status:"active",pt:true,conf:"root",name:"Shaohui Wu",inst:"Ohio State",
+ succeeds:"boehm",succLabel:"turf health at Ohio State, across entomology and plant pathology",
+ deg:["Ph.D. Virginia Tech — managing white grubs with microbial biological control agents"],
+ roles:["University of Georgia, about five years, cotton and pecan","Rutgers University, about four years, annual bluegrass weevil management","Montana State University, field crops","Turfgrass Health Specialist and Assistant Professor of Turfgrass Health, Departments of Entomology and Plant Pathology, Ohio State, from June 2023"],
+ note:"A joint entomology and pathology appointment — \"turfgrass health\" rather than turf pathology, which is how several of these posts are now being written. Microbial biopesticides and alternatives that reduce both pest and disease pressure. A Virginia Tech doctorate, like McCall's students, though in entomology rather than pathology.",
+ claim:"Degrees and appointment from her Ohio State welcome announcement; no advisor is named, and her Virginia Tech doctoral work was on insects rather than pathogens.",src:[56,57]},
+
+{id:"stevenson",gen:3,conf:"root",name:"Katherine L. Stevenson",inst:"Georgia",kind:"context",
+ roles:["Plant pathologist, University of Georgia"],
+ note:"Not a turf pathologist. She appears here twice over: as Wakar Uddin's doctoral advisor, which is how Penn State's turf pathology descends from Georgia, and on Lane Tredway's doctoral committee alongside Burpee. Fungicide resistance and epidemiology across several crops.",
+ claim:"Confirmed directly as Uddin's doctoral advisor. Her role on Tredway's committee is evident from the papers drawn from his dissertation.",src:[18,49]},
+
+{id:"uddin",gen:4,status:"deceased",phd:"stevenson",conf:"documented",name:"Wakar Uddin",inst:"Penn State",meta:"d. 2022",
+ deg:["B.S. and M.S. Integrated Pest Management, University of Nevada","Ph.D. Plant Pathology, University of Georgia, 1996, under Katherine L. Stevenson"],
+ roles:["University of Georgia Plant Disease Clinic","Professor of Plant Pathology and turfgrass pathologist, Penn State, 1998–2022"],
+ note:"Epidemiology and management of gray leaf spot of perennial ryegrass, and induced resistance through plant defense activators. Born in Maungdaw, Arakan State, Myanmar, and active in Rohingya organizations alongside his academic work. Died April 2022. His training was in general plant pathology — the turf specialism began at Penn State.",
+ claim:"Stevenson confirmed directly as his doctoral advisor, which corrects an earlier guess at Burpee. The Georgia doctorate and 1996 date are in his memorial.",src:[49]},
+
+{id:"aynardi",gen:5,status:"active",phd:"uddin",conf:"documented",name:"Brian Aynardi",inst:"PBI-Gordon",
+ deg:["Ph.D. Plant Pathology, Penn State, 2016, under Wakar Uddin"],
+ roles:["Research technician at Penn State while completing the doctorate","Research scientist, Northeast, PBI-Gordon Corporation","Field Development Team, PBI-Gordon"],
+ note:"Co-author with Clarke and Inguagiato on anthracnose management. One of several in this diagram who took turf pathology training into the chemical industry rather than a faculty post.",
+ claim:"Uddin's memorial names Aynardi as his doctoral student and gives the 2016 date.",src:[49,50]},
+
+{id:"seem",gen:4,conf:"root",name:"Robert C. Seem",inst:"Cornell",kind:"context",
+ roles:["Plant pathologist, Cornell University, Geneva"],
+ note:"Not a turf pathologist. Megan Kennelly's doctoral committee at Cornell — Seem, David M. Gadoury and Wayne F. Wilcox — worked on grape and tree-fruit epidemiology. Seem stands in this diagram for all three, since a trunk can only draw one.",
+ claim:"Named directly, with Gadoury and Wilcox, as Kennelly's doctoral advisors. None of the three works in turf.",src:[51]},
+
+{id:"kennelly",gen:5,status:"active",phd:"seem",conf:"documented",name:"Megan Kennelly",inst:"Kansas State",
+ deg:["B.S. Botany, University of Wisconsin–Madison, 1999","Ph.D. Plant Pathology, Cornell University, 2005, under Robert C. Seem, David M. Gadoury and Wayne F. Wilcox","Postdoctoral researcher, Plant Pathology, Michigan State, 2005–06"],
+ roles:["Assistant to full Professor, Kansas State University, from 2006","Interim then permanent Department Head, Plant Pathology, Kansas State, from 2020"],
+ succeeds:"tisserat",succLabel:"took up turf among her commodities at Kansas State as Tisserat left for Colorado State",
+ note:"Research, extension and diagnostics across turfgrasses, trees, ornamentals, fruits and vegetables — the breadth typical of a land-grant post where turf is one commodity among several. Her graduate work was on fungal diseases of Wisconsin cranberries, so like Uddin she came to turf after training in another system.",
+ claim:"All three Cornell advisors confirmed directly; none works in turf. The Kansas State succession follows from the dates and is not independently stated.",src:[51]},
+
+{id:"jo",gen:5,status:"active",conf:"root",name:"Young-Ki Jo",inst:"Texas A&M",
+ deg:["B.S. Biology Education, Seoul National University, 1996","M.S. Entomology, Michigan State University, 2000","Ph.D. Plant Pathology, The Ohio State University, 2005"],
+ roles:["Professor and Extension Specialist, Department of Plant Pathology and Microbiology, Texas A&M University and AgriLife Extension"],
+ note:"Take-all root rot on warm-season turfgrasses, plus rice kernel smut and pecan scab. Teaches the turfgrass pathology course at A&M.",
+ claim:"A root: degrees documented on his A&M profile, with no advisor named for the Ohio State doctorate. An entomology master's at Michigan State means his turf pathology training came later.",src:[52]},
+
+{id:"horvath",gen:5,status:"active",phd:"vargas",conf:"documented",name:"Brandon Horvath",inst:"Tennessee",
+ deg:["Ph.D. Plant Sciences, Michigan State University, 2003, under Joseph M. Vargas Jr."],
+ roles:["Professor, Department of Plant Sciences, University of Tennessee, Knoxville"],
+ note:"Teaches turf history, management practice, pathogen identification and control — and a course on detecting bad arguments from data. Golf turf analytics. Jesse Benelli, who went on to run the CDGA program, trained under him.",
+ claim:"Vargas confirmed directly as his doctoral advisor, which makes Michigan State a two-branch root rather than a dead end.",src:[53]},
+
+{id:"nelson",gen:4,status:"emeritus",succeeds:"smiley",conf:"documented",name:"Eric B. Nelson",inst:"Cornell",
+ succLabel:"took Cornell's turf pathology position after Smiley left for Oregon State",
+ roles:["Professor, then Professor Emeritus, Plant Pathology and Plant-Microbe Biology, Cornell University"],
+ note:"Biological control of turfgrass diseases, soil microbial ecology and the turf phytobiome — the suppressive-soil line of work that Groben, Chou and Roberts are all doing versions of now. He held the Cornell turf post for roughly three decades after Smiley.",
+ claim:"Confirmed directly as Smiley's successor at Cornell. His own doctoral advisor is not documented here. He trained neither of the two Cornell doctorates in this diagram: Kennelly's advisors were Seem, Gadoury and Wilcox, and Mitkowski was not his student either — both confirmed directly. No advising edge runs out of this node.",src:[69]},
+
+{id:"smiley",gen:3,status:"emeritus",conf:"root",name:"Richard W. Smiley",inst:"Cornell → Oregon State",
+ deg:["B.S. Soil Science, Cal Poly San Luis Obispo, 1965","M.S. Soils, minor Plant Pathology, Washington State, 1969","Ph.D. Plant Pathology, minor Soils, Washington State, 1972"],
+ roles:["NATO Post-Doctoral Fellow, CSIRO, Adelaide, 1972–73","Research associate to Associate Professor of Plant Pathology, Cornell University, 1973–1982","Professor of Plant Pathology and station director, Columbia Basin Agricultural Research Center, Oregon State University, 1985–2014"],
+ note:"Held the Cornell turf pathology position through the 1970s, working on turfgrass and wheat diseases and the microbiology of turf systems, before moving to dryland wheat and nematodes in eastern Oregon. A co-author of the <i>Compendium of Turfgrass Diseases</i>. Randy Kane came out of this lab and took the nematode work to the Chicago District Golf Association in 1985, which is how the only non-university lineage in this diagram connects to the academic one. Eric Nelson held the Cornell post after him.",
+ claim:"Confirmed directly as Kane's doctoral advisor. A root upward: a detailed oral-history biography gives his own degrees and dates but does not name his Washington State doctoral advisor.",src:[54]}
+];
+
+const UNPLACED=[
+ {n:"Monica Elliott",d:"University of Florida. Root and crown diseases of warm-season turf.",q:"Degrees and advisor unconfirmed"},
+ {n:"Tom Hsiang",d:"University of Guelph. The other Canadian turf pathology program, alongside Jordan's.",q:"Degrees and advisor unconfirmed"},
+ {n:"Paul Vincelli",d:"University of Kentucky. Co-author with Clarke, Koch and Chou on the chemical control of turfgrass diseases recommendations.",q:"Degrees and advisor unconfirmed"},
+ {n:"Jack Fry",d:"Kansas State turf scientist; co-mentored Settle's doctorate with Tisserat.",q:"In scope through the Settle link"},
+ {n:"Doug Maxwell",d:"UW–Madison. Gray snow mold in the 1990s; co-founded the Turfgrass Diagnostic Lab.",q:"Sits between Worf and Jung in the chair line"},
+ {n:"Steve Millett",d:"UW–Madison. Typhula snow mold, and author of the program history this tree draws on.",q:"Advisor unconfirmed"},
+ {n:"Phil Larson / William Shane",d:"Ohio State turf pathology, mid-1980s and late 1980s–90s. Named only in the program's own history.",q:"No degrees or training documented anywhere found"}
+];
+
+const SOURCES=[
+ ['Steve Millett, “The UW Turf Legacy,” <i>The Grass Roots</i>, Jan/Feb 1999','https://archive.lib.msu.edu/tic/groot/article/1999jan48.pdf'],
+ ['Mike Kenna, “Making a Wisconsin connection,” <i>Golfdom</i>, Aug 2020','https://www.golfdom.com/?p=43567'],
+ ['Steve Abler, “Dr. Houston B. Couch” memorial, <i>The Grass Roots</i>, Nov/Dec 2004','https://archive.lib.msu.edu/tic/groot/article/2004nov10.pdf'],
+ ['“No Couch Potato,” <i>USGA Green Section Record</i>, May/June 2003','https://d.lib.msu.edu/gsr/546/FULL_TEXT/view'],
+ ['Lori Ward Bocher, “He’s Ready To Fight Those Turfgrass Pathogens,” <i>The Grass Roots</i>, May 2003','https://archive.lib.msu.edu/tic/groot/article/2003may10.pdf'],
+ ['Bob Chalifour, “Dr. Noel Jackson Retires,” <i>Connecticut Clippings</i>, Sept 2003','https://d.lib.msu.edu/concl/88/FULL_TEXT/view'],
+ ['Noel Jackson obituary, Avery-Storti Funeral Home, 2018','https://www.averystortifuneralhome.com/obituaries/noel-jackson-phd'],
+ ['“1999 USGA Green Section Award Recipient: Dr. Noel Jackson”','https://gsr.lib.msu.edu/1990s/1999/990501.pdf'],
+ ['John Reitman, “Life after teaching,” TurfNet (Dernoeden retirement)','https://turfnet.com/news.html/life-after-teaching-r145'],
+ ['Peter H. Dernoeden faculty profile, University of Maryland','https://agnr.umd.edu/about/directory/peter-h-dernoeden'],
+ ['“Homegrown faculty reflect on their roots,” Rutgers SEBS/NJAES News','https://sebsnjaesnews.rutgers.edu/2021/01/homegrown-faculty-reflect-on-their-roots/'],
+ ['Bruce B. Clarke, biographical sketch and curriculum vitae, Rutgers','https://plantbiology.rutgers.edu/sites/default/files/2024-04/Clarke-CV-Short-Version-2015-2020.pdf'],
+ ['“End of an era: after nearly 40 years, Clarke retires from Rutgers,” TurfNet','https://turfnet.com/news/end-of-an-era-after-nearly-40-years-clarke-retires-from-rutgers/'],
+ ['Rutgers SEBS/NJAES News, Lisa Beirn award coverage','https://sebsnjaesnews.rutgers.edu/search/%22Lisa+Beirn%22/'],
+ ['Burpee and Martin, “Biology of Rhizoctonia Species Associated with Turfgrasses,” <i>Plant Disease</i> 76:112, 1992','https://apsnet.org/publications/plantdisease/backissues/Documents/1992Abstracts/PD_76_112.htm'],
+ ['<i>Sports Turf Newsletter</i>, March 1992 (Burpee’s move from Guelph to Georgia)','https://archive.lib.msu.edu/tic/stnew/article/1992mar2.pdf'],
+ ['Lane P. Tredway, Ph.D. dissertation, University of Georgia, 2002','https://openscholar.uga.edu/record/15400'],
+ ['Tredway, Stevenson and Burpee, <i>Phytopathology</i> 95:463, 2005','https://apsjournals.apsnet.org/doi/10.1094/PHYTO-95-0463'],
+ ['Jim Kerns faculty profile, NC State University','https://cals.ncsu.edu/entomology-and-plant-pathology/people/jpkerns'],
+ ['David Brandenburg, “Welcome Dr. Kerns,” <i>The Grass Roots</i>, July 2008','https://archive.lib.msu.edu/tic/groot/article/2008jul19.pdf'],
+ ['Paul Koch, “The Next Chapter,” <i>The Grass Roots</i>, Nov/Dec 2013','https://archive.lib.msu.edu/tic/groot/article/2013nov16.pdf'],
+ ['“Remembering Dr. Joseph Vargas,” Michigan State University CANR','https://www.canr.msu.edu/news/remembering-dr-joseph-vargas'],
+ ['“J.M. Vargas, Jr., Receives Distinguished Service Award from GCSAA,” 1997','https://archive.lib.msu.edu/tic/holen/article/1997feb26.pdf'],
+ ['Paul Giordano profile, Michigan State University','https://www.canr.msu.edu/people/paul_giordano'],
+ ['Nathaniel Mitkowski faculty profile, University of Rhode Island','https://web.uri.edu/pse/meet/nathaniel-mitkowski/'],
+ ['“Kaminski nabs Musser Foundation Award,” <i>Golf Course Industry</i>','https://www.golfcourseindustry.com/news/kaminski-nabs-musser-foundation-award'],
+ ['Michael Fidanza faculty profile, Penn State Berks','https://berks.psu.edu/person/fidanza-michael'],
+ ['Katerina Serlemitsos Jordan faculty profile, University of Guelph','https://www.plant.uoguelph.ca/kjordan'],
+ ['NC State Turfgrass Pathology Program, “About”','https://turfpathology.ces.ncsu.edu/about'],
+ ['“Martin remembered for unyielding service to superintendents worldwide,” TurfNet','https://turfnet.com/news/martin-remembered-for-unyielding-service-to-superintendents-worldwide/'],
+ ['“Dr. Bruce Martin reflects on his turf career,” USGA','https://www.usga.org/content/usga/home-page/course-care/regional-updates/southeast-region/2017/dr-bruce-martin-reflects-on-his-turf-career.html'],
+ ['Lee Miller, “New Turf Pathologist,” <i>Purdue Landscape Report</i>','https://purduelandscapereport.org/article/new-turf-pathologist/'],
+ ['Joseph Roberts faculty profile, Clemson University','https://clemson.edu/cafls/faculty_staff/profiles/jar7'],
+ ['“Ming-Yi Chou is an Assistant Extension Specialist in Turfgrass Pathology,” Rutgers','https://sebsnjaesnews.rutgers.edu/2023/05/announcement-ming-yi-chou-is-an-assistant-extension-specialist-in-turfgrass-pathology/'],
+ ['Jung, Hulvey, Popko, Mitkowski and Vargas, “Fungicide Resistance in Turfgrass Pathogens,” APS Press, 2019','https://web.uri.edu/pse/meet/nathaniel-mitkowski/'],
+ ['Richard Latin, APS Fellow citation (members only)','https://apsnet.org/members/give-awards/awards/Fellows/Pages/RichardLatin.aspx'],
+ ['Philip Harmon faculty profile, University of Florida','https://plantpath.ifas.ufl.edu/people/faculty-pages/phil-harmon/'],
+ ['“Bayer CropScience expands Green Solutions Team” (Settle appointment)','https://www.lawnandlandscape.com/news/ll-013113-bayer-cropscience-settle'],
+ ['Peter Landschoot faculty profile, Penn State Plant Science','https://plantscience.psu.edu/directory/pjl1'],
+ ['“Peter Landschoot retires after serving as Extension turf specialist for 35 years,” Penn State','https://psu.edu/news/impact/story/peter-landschoot-retires-after-serving-extension-turf-specialist-35-years'],
+ ['David McCall faculty profile, Virginia Tech School of Plant and Environmental Sciences','https://spes.vt.edu/faculty-staff/faculty/mccall-david.html'],
+ ['Aaron Tucker faculty profile, Auburn University','https://agriculture.auburn.edu/directory/profile.php?id=mat0179'],
+ ['“Horticulture’s Hutchens Receives Musser Award of Excellence,” University of Arkansas','https://news.uark.edu/articles/63515/horticulture-s-hutchens-receives-musser-award-of-excellence'],
+ ['“Hutchens wins Musser Award,” Virginia Tech SPES magazine','https://spes.vt.edu/magazine/stories/spring-2023/hutchens-musser.html'],
+ ['“Welcome, Dr. Kowalewski,” Oregon State Beaver Turf','https://agsci.oregonstate.edu/beaverturf/welcome-dr-kowalewski'],
+ ['Alec Kowalewski faculty profile, Oregon State University','https://anrs.oregonstate.edu/directory/people/alec-kowalewski'],
+ ['“Renee Rioux settling in as Wisconsin’s seed certification director,” <i>Spudman</i>','https://spudman.com/article/renee-rioux-settling-in-wisconsin-seed-potato-certification-director/'],
+ ['Maria Tomaso-Peterson profile, Mississippi State University','https://entomology.msstate.edu/associate.php?id=24'],
+ ['“Plant pathology professor remembered for impact on turfgrass industry, students” (Wakar Uddin), Penn State','https://www.psu.edu/news/agricultural-sciences/story/plant-pathology-professor-remembered-impact-turfgrass-industry-students'],
+ ['“Brian Aynardi: Rooted in Turfgrass Excellence,” Penn State alumni spotlight','https://agsci.psu.edu/alumni/alumni-spotlights/brian-aynardi-rooted-in-turfgrass-excellence'],
+ ['Megan Kennelly faculty profile, Kansas State University','https://experts.ksu.edu/megan.kennelly'],
+ ['Young-Ki Jo faculty profile, Texas A&M University','https://plantpathology.tamu.edu/people/jo-young-ki'],
+ ['Brandon Horvath faculty profile, University of Tennessee','https://utia.tennessee.edu/person?id=7950'],
+ ['Richard W. Smiley oral history biography, Oregon State University Special Collections','https://scarc.library.oregonstate.edu/oh150/smiley/biography.html'],
+ ['CDGA Turfgrass Program, program history and directors','https://www.cdga.org/golf-about/golf-info.asp?id=10&pid=2'],
+ ['Ohio State turfgrass program history, BuckeyeTurf “About”','https://buckeyeturf.osu.edu/about'],
+ ['“Welcome Dr. Shaohui Wu,” BuckeyeTurf','https://buckeyeturf.osu.edu/news/welcome-dr-shaohui-wu'],
+ ['“The SportsField Management Interview: John (Trey) Rogers III”','https://sportsfieldmanagementonline.com/2021/06/28/the-sportsfield-management-interview-john-trey-rogers-iii-ph-d/12786/'],
+ ['“Bayer selects Dr. Jesse Benelli to join Green Solutions Team,” <i>Golf Course Industry</i>','https://www.golfcourseindustry.com/news/jesse-benelli-bayer-green-solutions-team'],
+ ['Derek Settle, nematode article naming his Kansas State mentors, <i>On Course</i>, Dec 2006','https://archive.lib.msu.edu/tic/bulls/article/2006dec9.pdf'],
+ ['Ruying Wang faculty profile, Michigan State University','https://www.canr.msu.edu/people/ruying-wang'],
+ ['Joseph Ryan Doherty, Ph.D. dissertation, University of Maryland, 2021 (DRUM)','https://drum.lib.umd.edu/bitstream/handle/1903/28419/Doherty_umd_0117E_22058.pdf?sequence=2'],
+ ['Alfredo Martinez faculty profile, University of Georgia Plant Pathology','https://plantpath.caes.uga.edu/people/faculty/alfredo-martinez.html'],
+ ['Bochra Amina Bahri faculty profile, University of Georgia, Griffin','https://griffin.uga.edu/directory/ipbgg/person/20301/bochra-amina-bahri/'],
+ ['History of the Rutgers turfgrass program, Rutgers Center for Turfgrass Science','https://turf.rutgers.edu/about/history/'],
+ ['“Meet Instructor Rich Buckley,” Rutgers Continuing Professional Education','https://cpe.rutgers.edu/news-stories/meet-instructor-rich-buckley/'],
+ ['Kurt Hockemeyer, Koch Lab, University of Wisconsin–Madison','https://kochlab.cals.wisc.edu/kurt-hockemeyer'],
+ ['“David McCall, Virginia Tech — Introduction,” Landscape Supply of Virginia','https://landscapesupplyva.com/posts/david-mccall-virginia-tech-introduction'],
+ ['Eric Nelson, Atkinson Center faculty fellow profile, Cornell University','https://fellows.atkinson.cornell.edu/view.php?NetID=ebn1']
+];
+
+const byId=Object.fromEntries(P.map(p=>[p.id,p]));
+const KINDS=["phd","coadv","ms","postdoc","succ","mentor"];
+const KINDLABEL={phd:"Doctoral advisor",ms:"Master's advisor",postdoc:"Postdoctoral mentor",succ:"Succeeded",mentor:"Trained under",coadv:"Doctoral co-advisor"};
+
+/* A person can succeed more than one predecessor — Roberts holds two former posts —
+   so succession is normalised to a list however it was written. */
+function succList(p){
+  if(p.succ) return p.succ.map(s=>({id:s[0],label:s[1]}));
+  if(p.succeeds) return [{id:p.succeeds,label:p.succLabel}];
+  return [];
+}
+function coadvList(p){
+  if(!p.coadv) return [];
+  return Array.isArray(p.coadv)?p.coadv:[p.coadv];
+}
+function tieCount(p){
+  return (p.phd?1:0)+coadvList(p).length+(p.ms?1:0)+(p.postdoc?1:0)+(p.mentor?1:0)+succList(p).length;
+}
+
+const E=[];
+P.forEach(p=>{
+  if(p.phd) E.push({from:p.phd,to:p.id,kind:"phd"});
+  coadvList(p).forEach(c=>E.push({from:c,to:p.id,kind:"coadv"}));
+  if(p.ms) E.push({from:p.ms,to:p.id,kind:"ms"});
+  if(p.postdoc) E.push({from:p.postdoc,to:p.id,kind:"postdoc"});
+  if(p.mentor) E.push({from:p.mentor,to:p.id,kind:"mentor",label:p.mentorLabel});
+  succList(p).forEach(s=>E.push({from:s.id,to:p.id,kind:"succ",label:s.label}));
+});
+
+/* ---------- layout ----------
+   Generations are horizontal bands. A band wider than PERROW wraps into sub-rows,
+   so the diagram stays readable instead of scrolling for thousands of pixels. */
+const NW=158,NH=38,GAPX=14,SUBGAP=60,BANDGAP=56,PADX=26,PADY=34,BANDPAD=14,PERROW=9;
+const GENS=[...new Set(P.map(p=>p.gen))].sort((a,b)=>a-b);
+const GENLABEL={0:"Founding department · 1910s",1:"USGA era · 1920s–30s",
+  2:"First university posts · 1950s–60s",3:"1960s–80s",4:"1980s–2000s",
+  5:"Established · tenured faculty, industry and diagnostics",
+  7:"Pre-tenure · the field's next generation"};
+
+const rows={};
+GENS.forEach(g=>{
+  const r=P.filter(p=>p.gen===g);
+  r.sort((a,b)=>{
+    const pa=a.phd||a.ms||a.postdoc||a.succeeds||"zz", pb=b.phd||b.ms||b.postdoc||b.succeeds||"zz";
+    if(pa===pb) return a.name.localeCompare(b.name);
+    return pa.localeCompare(pb);
+  });
+  rows[g]=r;
+});
+const maxCols=Math.min(PERROW,Math.max(...GENS.map(g=>rows[g].length)));
+const W=PADX*2+maxCols*NW+(maxCols-1)*GAPX;
+
+const pos={};
+let cursorY=PADY;
+const bands=[];
+GENS.forEach((g,gi)=>{
+  const r=rows[g];
+  const chunks=[];
+  for(let i=0;i<r.length;i+=PERROW) chunks.push(r.slice(i,i+PERROW));
+  const bandTop=cursorY;
+  chunks.forEach((c,ci)=>{
+    const rowW=c.length*NW+(c.length-1)*GAPX;
+    const x0=Math.max(PADX,(W-rowW)/2);
+    const y=cursorY+ci*SUBGAP;
+    c.forEach((p,i)=>{pos[p.id]={x:x0+i*(NW+GAPX),y:y,gi:gi}});
+  });
+  const bandH=(chunks.length-1)*SUBGAP+NH;
+  bands.push({g:g,top:bandTop,h:bandH,gi:gi});
+  cursorY=bandTop+bandH+BANDGAP;
+});
+const H=cursorY-BANDGAP+PADY;
+
+const svg=document.getElementById('graph');
+svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+svg.setAttribute('width',W);
+svg.setAttribute('height',H);
+
+const NS="http://www.w3.org/2000/svg";
+function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n}
+
+bands.forEach(b=>{
+  const isPT=b.g===7;
+  if(isPT){
+    svg.appendChild(el("rect",{class:"bandrect pt",x:0,y:b.top-BANDPAD,
+      width:W,height:b.h+BANDPAD*2}));
+    svg.appendChild(el("line",{class:"ptrule",x1:0,y1:b.top-BANDPAD,x2:W,y2:b.top-BANDPAD}));
+  } else if(b.gi%2===0){
+    svg.appendChild(el("rect",{class:"bandrect",x:0,y:b.top-BANDPAD,
+      width:W,height:b.h+BANDPAD*2}));
+  }
+  const t=el("text",{class:"bandlabel"+(isPT?" pt":""),x:10,y:b.top-BANDPAD-5});
+  t.textContent=GENLABEL[b.g]||("Generation "+b.g);
+  svg.appendChild(t);
+});
+
+/* Edges. The doctoral trunk is drawn rectilinear, like a family tree; the other three
+   relationship types curve, so they read as links laid over that structure. */
+const KOFF={phd:0,coadv:3,ms:-6,postdoc:6,succ:12,mentor:-12};
+const edgeLayer=el("g",{});svg.appendChild(edgeLayer);
+E.forEach(e=>{
+  const a=pos[e.from],b=pos[e.to];
+  if(!a||!b) return;
+  const off=KOFF[e.kind];
+  const ax=a.x+NW/2+off, bx=b.x+NW/2+off;
+  const ay=a.y+NH, by=b.y;
+  let d;
+  if((e.kind==="phd"||e.kind==="coadv")&&by>ay){
+    const my=ay+(by-ay)*0.55;
+    d=`M${ax},${ay} V${my} H${bx} V${by}`;
+  } else if(by>ay){
+    const my=(ay+by)/2;
+    d=`M${ax},${ay} C${ax},${my} ${bx},${my} ${bx},${by}`;
+  } else if(Math.abs(a.y-b.y)<1){
+    const lift=Math.min(17,9+Math.abs(b.x-a.x)/22);
+    d=`M${a.x+NW/2},${a.y+NH} C${a.x+NW/2},${a.y+NH+lift} ${b.x+NW/2},${b.y+NH+lift} ${b.x+NW/2},${b.y+NH}`;
+  } else {
+    d=`M${a.x+NW/2+off},${a.y} C${ax},${a.y-44} ${bx},${by+NH+44} ${bx},${by+NH}`;
+  }
+  const p=el("path",{class:"edge e-"+e.kind,d:d,"data-kind":e.kind,
+    "data-from":e.from,"data-to":e.to});
+  edgeLayer.appendChild(p);
+  e.node=p;
+});
+
+/* nodes */
+const nodeLayer=el("g",{});svg.appendChild(nodeLayer);
+const STRIPE={documented:"var(--phd)",reported:"var(--ms)",unverified:"var(--slate)",root:"var(--ink-faint)"};
+P.forEach(p=>{
+  const {x,y}=pos[p.id];
+  const g=el("g",{class:"gnode"+(p.pt?" pt":""),"data-id":p.id,tabindex:"0",role:"button"});
+  const r=el("rect",{x:x,y:y,width:NW,height:NH});
+  if(p.conf==="unverified"||p.conf==="reported") r.classList.add("unver");
+  g.appendChild(r);
+  g.appendChild(el("rect",{class:"stripe",x:x,y:y,width:3.5,height:NH,
+    fill:STRIPE[p.conf]||"var(--slate)"}));
+  const t1=el("text",{x:x+10,y:y+14});
+  t1.textContent=p.name;
+  g.appendChild(t1);
+  const t2=el("text",{class:"inst",x:x+10,y:y+27});
+  t2.textContent=(p.kind==="context"?"◦ ":p.kind==="offpath"?"△ ":p.kind==="diag"?"◇ ":"")+p.inst;
+  g.appendChild(t2);
+  const title=el("title",{});
+  title.textContent=p.name+" — "+p.inst;
+  g.appendChild(title);
+  nodeLayer.appendChild(g);
+});
+
+/* ---------- panel ---------- */
+const panel=document.getElementById('panel');
+function relLine(kind,otherId,label){
+  const col={phd:"var(--phd)",ms:"var(--ms)",postdoc:"var(--postdoc)",succ:"var(--succ)",mentor:"var(--mentor)",coadv:"var(--coadv)"}[kind];
+  const style={phd:"solid",ms:"dashed",postdoc:"dotted",succ:"solid",mentor:"dotted",coadv:"dashed"}[kind];
+  return '<span class="rel"><i style="border-top:2.5px '+style+' '+col+'"></i>'+
+    KINDLABEL[kind]+': '+(byId[otherId]?byId[otherId].name:otherId)+
+    (label?' — '+label:'')+'</span>';
+}
+/* ---------- sectors and school affiliations ----------
+   Sector comes from current affiliation; school affiliation is matched against every
+   institution a person's record mentions, so someone who trained in one place and
+   works in another belongs to both groups. */
+const INDUSTRY=/Syngenta|Envu|BASF|PBI-Gordon|Harrell|Quali-Pro|Bayer|NewLeaf/i;
+function isIndustry(p){return INDUSTRY.test(p.inst)}
+
+const SCHOOLS=[
+  ["Rutgers",/Rutgers/i],
+  ["Wisconsin",/Wisconsin/i],
+  ["NC State",/NC State|North Carolina State/i],
+  ["Rhode Island",/Rhode Island|\bURI\b/i],
+  ["Maryland",/Maryland/i],
+  ["Michigan State",/Michigan State|\bMSU\b/i],
+  ["Penn State",/Penn State|Pennsylvania State/i],
+  ["Georgia",/University of Georgia|Georgia, Griffin|Georgia–Griffin|\bUGA\b|^Georgia$/i],
+  ["Virginia Tech",/Virginia Tech/i],
+  ["Purdue",/Purdue/i],
+  ["Cornell",/Cornell/i],
+  ["Clemson",/Clemson/i],
+  ["Mississippi State",/Mississippi State/i],
+  ["Kansas State",/Kansas State/i],
+  ["Ohio State",/Ohio State/i],
+  ["Oregon State",/Oregon State/i],
+  ["UC Davis",/UC Davis|California at Davis|California, Davis/i],
+  ["Tennessee",/Tennessee(?! Tech)/i],
+  ["Arkansas",/Arkansas/i],
+  ["Colorado State",/Colorado State/i],
+  ["Connecticut",/Connecticut/i],
+  ["Texas A&M",/Texas A&M/i],
+  ["UMass",/UMass|University of Massachusetts/i],
+  ["Guelph",/Guelph/i],
+  ["Montana State",/Montana State/i],
+  ["USGA Green Section",/USGA Green Section/i],
+  ["CDGA",/CDGA|Chicago District Golf/i]
+];
+const affText={};
+P.forEach(p=>{affText[p.id]=[p.inst,(p.deg||[]).join(' '),(p.roles||[]).join(' ')]
+  .join(' ').replace(/<[^>]+>/g,'')});
+const schoolMembers={};
+SCHOOLS.forEach(([name,re])=>{
+  schoolMembers[name]=P.filter(p=>re.test(affText[p.id])).map(p=>p.id);
+});
+const schoolList=SCHOOLS.map(([n])=>n)
+  .filter(n=>schoolMembers[n].length>=2)
+  .sort((a,b)=>schoolMembers[b].length-schoolMembers[a].length);
+
+/* ---------- unified view state ---------- */
+const active=new Set(KINDS);
+let hideIndustry=false;
+let activeOnly=false;
+let hl=null;              /* {type:"diag"} | {type:"school",name} */
+let q="";
+let sel=null;
+
+const hay={};
+P.forEach(p=>{hay[p.id]=[p.name,p.inst,(p.deg||[]).join(' '),(p.roles||[]).join(' '),p.note||'']
+  .join(' ').replace(/<[^>]+>/g,'').toLowerCase()});
+
+function nodeShown(p){
+  if(hideIndustry&&isIndustry(p)) return false;
+  if(activeOnly&&p.status!=="active") return false;
+  return true;
+}
+
+function focusSet(){
+  if(sel){
+    const f=new Set([sel]);
+    E.forEach(e=>{if(e.from===sel||e.to===sel){f.add(e.from);f.add(e.to)}});
+    return f;
+  }
+  if(q) return new Set(P.filter(p=>hay[p.id].includes(q)).map(p=>p.id));
+  if(hl&&hl.type==="diag") return new Set(P.filter(p=>p.kind==="diag").map(p=>p.id));
+  if(hl&&hl.type==="active") return new Set(P.filter(p=>p.status==="active").map(p=>p.id));
+  if(hl&&hl.type==="school") return new Set(schoolMembers[hl.name]);
+  return null;
+}
+
+function applyView(){
+  const F=focusSet();
+  const litEdge=e=>{
+    if(!F) return false;
+    if(sel) return e.from===sel||e.to===sel;
+    return F.has(e.from)&&F.has(e.to);
+  };
+  document.querySelectorAll('.gnode').forEach(n=>{
+    const p=byId[n.dataset.id];
+    const shown=nodeShown(p);
+    n.style.display=shown?'':'none';
+    n.classList.toggle('dim',shown&&!!F&&!F.has(p.id));
+    n.classList.toggle('sel',p.id===sel);
+  });
+  E.forEach(e=>{
+    const shown=active.has(e.kind)&&nodeShown(byId[e.from])&&nodeShown(byId[e.to]);
+    e.node.style.display=shown?'':'none';
+    const lit=shown&&litEdge(e);
+    e.node.classList.toggle('lit',lit);
+    e.node.classList.toggle('dim',shown&&!!F&&!lit);
+    if(lit) edgeLayer.appendChild(e.node);
+  });
+  if(sel){
+    const g=document.querySelector('.gnode[data-id="'+sel+'"]');
+    if(g) nodeLayer.appendChild(g);
+  }
+  const n=document.getElementById('viewnote');
+  if(n){
+    if(hl&&hl.type==="school") n.textContent=schoolMembers[hl.name].length+" people trained or worked at "+hl.name;
+    else if(hl&&hl.type==="diag") n.textContent=P.filter(p=>p.kind==="diag").length+" diagnosticians, and the labs they came through";
+    else if(hl&&hl.type==="active") n.textContent=P.filter(p=>p.status==="active").length+" in a stated current post, of "+P.length;
+    else if(activeOnly&&hideIndustry) n.textContent=P.filter(p=>p.status==="active"&&!isIndustry(p)).length+" currently in academic, diagnostic or government posts";
+    else if(activeOnly) n.textContent=P.filter(p=>p.status==="active").length+" currently in a stated post; "+P.filter(p=>!p.status).length+" whose status I could not establish are hidden too";
+    else if(hideIndustry) n.textContent=P.filter(isIndustry).length+" people in industry hidden";
+    else n.textContent="";
+  }
+}
+
+/* ---------- panel + selection ---------- */
+function show(id){
+  const p=byId[id];
+  let rels=[];
+  if(p.phd) rels.push(relLine("phd",p.phd));
+  coadvList(p).forEach(c=>rels.push(relLine("coadv",c)));
+  if(p.ms) rels.push(relLine("ms",p.ms));
+  if(p.postdoc) rels.push(relLine("postdoc",p.postdoc));
+  if(p.mentor) rels.push(relLine("mentor",p.mentor,p.mentorLabel));
+  succList(p).forEach(s=>rels.push(relLine("succ",s.id,s.label)));
+  const trained=E.filter(e=>e.from===id&&e.kind!=="succ")
+    .map(e=>byId[e.to].name+' <span style="color:var(--ink-faint);font-size:12px">('+
+      (e.kind==="phd"?"PhD":e.kind==="coadv"?"PhD, co-advised":e.kind==="ms"?"MS":e.kind==="mentor"?"mentored":"postdoc")+')</span>');
+  const mySchools=schoolList.filter(n=>schoolMembers[n].includes(id));
+  let h='<h3>'+p.name+'</h3><p class="sub">'+p.inst+(p.meta?' · '+p.meta:'')+
+    (isIndustry(p)?' · industry':'')+
+    (p.kind==="context"?' · outside turf pathology':'')+
+    (p.kind==="offpath"?' · turf role, not pathology':'')+
+    (p.kind==="diag"?' · diagnostician':'')+
+    (p.pt?' · pre-tenure':'')+
+    (p.status==="emeritus"?' · emeritus or retired':'')+
+    (p.status==="deceased"?' · deceased':'')+'</p><dl>';
+  if(rels.length) h+='<dt>Ties</dt><dd>'+rels.join('')+'</dd>';
+  if(p.deg) h+='<dt>Degrees</dt><dd><ul>'+p.deg.map(d=>'<li>'+d+'</li>').join('')+'</ul></dd>';
+  if(p.roles) h+='<dt>Posts</dt><dd><ul>'+p.roles.map(d=>'<li>'+d+'</li>').join('')+'</ul></dd>';
+  if(trained.length) h+='<dt>Trained</dt><dd>'+trained.join(', ')+'</dd>';
+  if(mySchools.length>1) h+='<dt>Institutions</dt><dd>'+mySchools.join(' · ')+'</dd>';
+  if(p.note) h+='<dt>Notes</dt><dd>'+p.note+'</dd>';
+  if(p.src&&p.src.length) h+='<dt>Sources</dt><dd>'+p.src.map(i=>'<a href="'+SOURCES[i-1][1]+
+    '" target="_blank" rel="noopener">['+i+']</a>').join(' ')+'</dd>';
+  h+='</dl>';
+  if(p.claim) h+='<p class="claim">'+p.claim+'</p>';
+  panel.innerHTML=h;
+  panel.style.borderLeftColor=STRIPE[p.conf]||"var(--slate)";
+  sel=id;
+  applyView();
+}
+
+/* ---------- control wiring ---------- */
+document.querySelectorAll('.btn[data-kind]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const k=b.dataset.kind;
+    if(active.has(k)){active.delete(k);b.setAttribute('aria-pressed','false')}
+    else{active.add(k);b.setAttribute('aria-pressed','true')}
+    applyView();
+  });
+});
+
+const activeBtn=document.getElementById('active-only');
+activeBtn.addEventListener('click',()=>{
+  activeOnly=!activeOnly;
+  activeBtn.setAttribute('aria-pressed',String(activeOnly));
+  applyView();
+});
+
+const industryBtn=document.getElementById('hide-industry');
+industryBtn.addEventListener('click',()=>{
+  hideIndustry=!hideIndustry;
+  industryBtn.setAttribute('aria-pressed',String(hideIndustry));
+  applyView();
+});
+
+function setHighlight(next){
+  hl=(hl&&next&&hl.type===next.type&&hl.name===next.name)?null:next;
+  document.querySelectorAll('.hlbtn').forEach(b=>{
+    const on=hl&&((b.dataset.hl&&hl.type===b.dataset.hl)||
+                  (b.dataset.school&&hl.type==="school"&&hl.name===b.dataset.school));
+    b.setAttribute('aria-pressed',String(!!on));
+  });
+  sel=null;
+  applyView();
+}
+document.getElementById('hl-diag').addEventListener('click',()=>setHighlight({type:"diag"}));
+document.getElementById('hl-active').addEventListener('click',()=>setHighlight({type:"active"}));
+
+const chipWrap=document.getElementById('schools');
+chipWrap.innerHTML=schoolList.map(n=>
+  '<button class="btn hlbtn chip" type="button" data-school="'+n+'" aria-pressed="false">'+
+  n+' <span class="cnt">'+schoolMembers[n].length+'</span></button>').join('');
+chipWrap.querySelectorAll('button').forEach(b=>
+  b.addEventListener('click',()=>setHighlight({type:"school",name:b.dataset.school})));
+
+document.querySelectorAll('.clearbtn').forEach(cb=>cb.addEventListener('click',()=>{
+  hl=null;sel=null;q='';
+  activeOnly=false;activeBtn.setAttribute('aria-pressed','false');
+  hideIndustry=false;industryBtn.setAttribute('aria-pressed','false');
+  document.getElementById('q').value='';
+  document.querySelectorAll('.hlbtn').forEach(b=>b.setAttribute('aria-pressed','false'));
+  panel.innerHTML='<p class="placeholder">Select anyone in the diagram for their degrees, posts, relationships, and the source behind each link.</p>';
+  panel.style.borderLeftColor='var(--phd)';
+  applyView();
+}));
+
+const notesBtn=document.getElementById('notes-toggle');
+const notesBody=document.getElementById('notes-body');
+notesBtn.addEventListener('click',()=>{
+  const open=notesBtn.getAttribute('aria-expanded')==='true';
+  notesBtn.setAttribute('aria-expanded',String(!open));
+  notesBody.hidden=open;
+});
+
+nodeLayer.addEventListener('click',e=>{
+  const g=e.target.closest('.gnode');if(g) show(g.dataset.id);
+});
+nodeLayer.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){
+    const g=e.target.closest('.gnode');
+    if(g){e.preventDefault();show(g.dataset.id)}
+  }
+});
+document.getElementById('q').addEventListener('input',ev=>{
+  q=ev.target.value.trim().toLowerCase();
+  sel=null;
+  applyView();
+});
+
+/* ---------- crosswalk ---------- */
+const multi=P.filter(p=>tieCount(p)>1).sort((a,b)=>tieCount(b)-tieCount(a));
+document.getElementById('crosswalk').innerHTML=multi.map(p=>{
+  const lines=[];
+  if(p.phd) lines.push(["phd","Doctorate",byId[p.phd].name+" · "+byId[p.phd].inst]);
+  coadvList(p).forEach(c=>lines.push(["coadv","Co-advisor",byId[c].name+" · "+byId[c].inst]));
+  if(p.ms) lines.push(["ms","Master's",byId[p.ms].name+" · "+byId[p.ms].inst]);
+  if(p.postdoc) lines.push(["postdoc","Postdoc",byId[p.postdoc].name+" · "+byId[p.postdoc].inst]);
+  if(p.mentor) lines.push(["mentor","Mentored by",byId[p.mentor].name+" · "+byId[p.mentor].inst]);
+  succList(p).forEach(s=>lines.push(["succ","Succeeded",byId[s.id].name+" — "+(s.label||"")]));
+  const col={phd:"var(--phd)",ms:"var(--ms)",postdoc:"var(--postdoc)",succ:"var(--succ)",mentor:"var(--mentor)",coadv:"var(--coadv)"};
+  const sty={phd:"solid",ms:"dashed",postdoc:"dotted",succ:"solid",mentor:"dotted",coadv:"dashed"};
+  return '<div class="cw"><div class="who">'+p.name+' <span style="font-family:var(--font-mono);'+
+    'font-size:11px;color:var(--ink-faint)">'+p.inst+'</span></div><div class="lines">'+
+    lines.map(l=>'<div class="line"><i style="border-top:2.5px '+sty[l[0]]+' '+col[l[0]]+'"></i>'+
+      '<span class="lbl">'+l[1]+'</span><span>'+l[2]+'</span></div>').join('')+
+    '</div></div>';
+}).join('');
+
+document.getElementById('unplaced').innerHTML=UNPLACED.map(u=>
+  '<div class="cell"><div class="nm2">'+u.n+'</div><div class="d">'+u.d+'</div>'+
+  '<div class="qq">'+u.q+'</div></div>').join('');
+document.getElementById('sources').innerHTML=SOURCES.map(s=>
+  '<li>'+s[0]+' — <a href="'+s[1]+'" target="_blank" rel="noopener">link</a></li>').join('');
+
+document.getElementById('c-people').textContent=P.length;
+document.getElementById('c-edges').textContent=E.length;
+document.getElementById('c-multi').textContent=multi.length;
+document.getElementById('c-pt').textContent=P.filter(p=>p.pt).length;
+document.getElementById('c-diag').textContent=P.filter(p=>p.kind==='diag').length;
+document.getElementById('c-inst').textContent=new Set(P.map(p=>p.inst)).size;
+
+/* Open with nothing selected and nothing dimmed, scrolled to the founding
+   generation at the top, so the first view is the whole graph. */
+applyView();
+</script>
+
+</body>
+</html>
