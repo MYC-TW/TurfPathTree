@@ -68,9 +68,15 @@ h1{font-family:var(--font-display);font-weight:700;font-size:25px;line-height:1.
   letter-spacing:-.01em;margin:0 0 7px}
 .byline{font-size:13.5px;color:var(--ink-soft);margin:0 0 3px;line-height:1.45}
 .byline b{font-weight:600;color:var(--ink)}
-.lablink{font-family:var(--font-mono);font-size:11.5px;margin:0 0 12px;
+.lablink{font-family:var(--font-mono);font-size:11.5px;margin:0 0 13px;
   overflow-wrap:anywhere}
 .lablink a{color:var(--accent);text-underline-offset:2px}
+.fbbtn{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;
+  min-height:46px;font-family:var(--font-body);font-size:14px;font-weight:600;
+  text-decoration:none;color:var(--accent);background:var(--surface);
+  border:1px solid var(--accent);border-radius:9px;padding:11px 15px}
+.fbbtn:active{background:var(--surface-2)}
+.fbbtn .arrow{font-size:14px;line-height:1}
 .dek{color:var(--ink-soft);font-size:15px;margin:0}
 .stats{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:13px;
   font-family:var(--font-mono);font-size:11px;color:var(--ink-faint)}
@@ -241,6 +247,7 @@ details[open] summary::after{transform:rotate(-135deg)}
   <h1>Turfgrass Pathology Academic Tree</h1>
   <p class="byline">Created by <b>Ming-Yi Chou, Ph.D.</b>, Turfgrass Pathologist at Rutgers University</p>
   <p class="lablink"><a href="https://sites.rutgers.edu/chou-lab/" target="_blank" rel="noopener">sites.rutgers.edu/chou-lab</a></p>
+  <a class="fbbtn" href="https://docs.google.com/forms/d/e/1FAIpQLSdoNvPWPMPvgcZr1pEJWTzkAQiN-Du3kKOc6Qn_uI9vhvmCpg/viewform" target="_blank" rel="noopener">Send feedback or a correction <span class="arrow" aria-hidden="true">&#8599;</span></a>
   <p class="dek">Who trained whom in North American turfgrass pathology, from a
     Wisconsin plant pathology department in the 1910s to faculty still pre-tenure.
     Tap anyone to see their record, their ties, and their advisor chain back to
