@@ -711,6 +711,23 @@ const P=[
  note:"Master's thesis on <i>S. homoeocarpa</i> pathogenicity and lightweight rolling for dollar spot suppression, then a doctorate on bacterial etiolation — both signed by Vargas. Now in industry, like most of the Clarke and Vargas graduates of his cohort.",
  claim:"Vargas confirmed directly as his doctoral advisor as well as his master's, which closes the gap his MSU profile left open — that profile names Vargas for the master's and gives the thesis title, but stops there.",src:[24]},
 
+/* ---- Oklahoma State, and the Arkansas doctorate ---- */
+{id:"kirkpatrick",gen:3,conf:"root",name:"Terry L. Kirkpatrick",inst:"Arkansas",kind:"context",
+ roles:["Professor and Extension Nematologist, University of Arkansas System Division of Agriculture","Interim head, Entomology and Plant Pathology, from 2017"],
+ note:"A nematologist on row crops rather than a turf pathologist. He is in this diagram only as one of the two people who may have advised Walker's Arkansas doctorate; that link is unverified.",
+ claim:"Role and the 2017 interim headship are documented. His own training is not recorded here, and the link to Walker is a surmise — see Walker's record.",src:[78]},
+
+{id:"rothrock",gen:3,conf:"root",name:"Craig S. Rothrock",inst:"Arkansas",kind:"context",
+ roles:["Professor of Plant Pathology, University of Arkansas"],
+ note:"Soilborne and seedling root diseases of cotton and other row crops rather than turf — a root-disease background that would sit naturally behind Walker's later work on the ectotrophic fungi causing spring dead spot. He is in this diagram only as one of the two possible advisors on Walker's Arkansas doctorate; that link is unverified.",
+ claim:"Role and department documented in the Arkansas Agricultural Experiment Station's cotton research summaries. His own training is not recorded here, and the link to Walker is a surmise — see Walker's record.",src:[79]},
+
+{id:"nwalker",gen:4,status:"active",coadv:["kirkpatrick","rothrock"],conf:"unverified",name:"Nathan R. Walker",inst:"Oklahoma State",
+ deg:["B.S. Bloomsburg University, 1993","M.S. Plant Science and Agronomy, Clemson University, 1996","Ph.D. Plant Science and Agronomy, University of Arkansas at Fayetteville, 1999"],
+ roles:["Professor of Entomology and Plant Pathology, Oklahoma State University — assistant professor there by 2003","Extension specialist for turfgrass disease and pest diagnosis","Supervises the OSU Turfgrass Diagnostic Laboratory, a part of the Plant Disease and Insect Diagnostic Laboratory"],
+ note:"Spring dead spot of bermudagrass, and the nearest thing that disease has to a dedicated program: how bermudagrass species differ in their response to the pathogens, aimed at genetic host resistance rather than another fungicide. It is the warm-season counterpart to the root-disease work running through the Jackson and Dernoeden lines — spring dead spot's <i>Ophiosphaerella</i> species belong to the same ectotrophic root-infecting guild as the patch diseases. Both his graduate degrees are in plant science and agronomy rather than pathology, so he is another of the people here who entered turf pathology rather than inheriting it. His Clemson and Arkansas degrees also mirror Bruce Martin's in reverse: Martin took a master's at Arkansas and spent his career at Clemson, Walker took his master's at Clemson and his doctorate at Arkansas.",
+ claim:"The only unverified link in this diagram, and the dashed outline means exactly that. Terry Kirkpatrick and Craig Rothrock are offered as the likely advisors on the Arkansas doctorate, but no source found states it and no committee list for the 1999 dissertation could be retrieved; which of them chaired, or whether a third person did, is unknown. Both are confirmed as Arkansas faculty in those roles, so the surmise is at least well-placed. Degrees, institutions and years supplied directly; rank, the extension appointment and the diagnostic lab are documented. His Clemson master's advisor is still unnamed — and 1996 falls well inside both Bruce Martin's Clemson tenure (1988–2019) and McCarty's, so if either signed it he joins the Clemson line too.",src:[75,76,77]},
+
 /* ---- Wisconsin chair line ---- */
 {id:"worf",gen:3,conf:"root",name:"Gayle Worf",inst:"Wisconsin",
  roles:["Turfgrass pathology, University of Wisconsin–Madison, through the 1980s"],
@@ -946,7 +963,12 @@ const SOURCES=[
  ['Illinois Turfgrass Conference proceedings, 1967 (Hodges and Britton on stripe smut)','https://listings.lib.msu.edu/illtc/1967.pdf'],
  ['Illinois turf bulletin, June 1965 (Britton’s title; Hodges listed as a graduate student)','https://archive.lib.msu.edu/tic/bulls/article/1965jun3.pdf'],
  ['Iowa State University personnel affiliated with the Turfgrass Research Program, 2007','https://listings.lib.msu.edu/iowat/2007/07_Personnel.pdf'],
- ['M. P. Britton, “Turfgrass Diseases,” Agronomy Monograph 14, 1969','https://acsess.onlinelibrary.wiley.com/doi/10.2134/agronmonogr14.c10']
+ ['M. P. Britton, “Turfgrass Diseases,” Agronomy Monograph 14, 1969','https://acsess.onlinelibrary.wiley.com/doi/10.2134/agronmonogr14.c10'],
+ ['“OSU turfgrass program pushes the limits of what grass can be,” <i>Cowboy Journal</i>, Oklahoma State University, 2023','https://news.okstate.edu/magazines/agriculture/cowboy-journal/articles/2023/osu-turfgrass-program-pushes-the-limits-of-what-grass-can-be.html'],
+ ['“Oklahoma State,” turf pathology lab directory, TurfDiseases.org','https://turfdiseases.org/labs/oklahoma-state/'],
+ ['Oklahoma State University faculty catalogue, College of Agricultural Sciences and Natural Resources, 2003–04','https://registrar.okstate.edu/site-files/documents/faculty_03-04.pdf'],
+ ['“Kirkpatrick appointed interim department head of entomology, plant pathology,” University of Arkansas System Division of Agriculture, 14 July 2017','https://uaex.uada.edu/media-resources/news/2017/july2017/07-14-2017-Ark-Kirkpatrick-appointed-entomology-pathology.aspx'],
+ ['<i>Summaries of Arkansas Cotton Research 2020</i>, Arkansas Agricultural Experiment Station','https://cottoncultivated.cottoninc.com/wp-content/uploads/2021/09/Summaries-of-Arkansas-Cotton-Research-2020.pdf']
 ];
 
 /* ---------- derived structures (same definitions as the wide version) ---------- */
@@ -1014,7 +1036,8 @@ const SCHOOLS=[
   ["Illinois",/University of Illinois/i],
   ["Iowa State",/Iowa State/i],
   ["USGA Green Section",/USGA Green Section/i],
-  ["CDGA",/CDGA|Chicago District Golf/i]
+  ["CDGA",/CDGA|Chicago District Golf/i],
+  ["Oklahoma State",/Oklahoma State/i]
 ];
 const strip=s=>String(s||'').replace(/<[^>]+>/g,'');
 const affText={};
