@@ -1,28 +1,9 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<style>
-/* Document skeleton. On claude.ai this is supplied by the artifact host; it is
-   inlined here so the file is self-contained and renders identically offline. */
-:root{
-  color-scheme:light;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#fafaf8}
-img{max-width:100%}
-[hidden]{display:none!important}
-</style>
 <title>Turfgrass Pathology Academic Tree</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
 
-</head>
-<body>
 <style>
 /* Layout: generation-banded node-link graph. PhD advising is the drawn trunk;
    MS advising, postdoc training and position succession are overlaid as distinct
@@ -76,7 +57,8 @@ body{
 }
 .wrap{max-width:1180px;margin:0 auto}
 
-.mast{padding-block:38px 22px;border-bottom:2px solid var(--ink)}
+.mast{padding-block:26px 18px;border-bottom:2px solid var(--ink)}
+.hintwrap{padding-bottom:10px}
 .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-faint);margin:0 0 13px}
 h1{font-family:var(--font-display);font-weight:700;font-size:clamp(29px,5.6vw,44px);
@@ -134,9 +116,46 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(29px,5.6vw,44
   padding-bottom:12px}
 
 /* ---- graph ---- */
+/* The diagram is about 1,590px wide, so inside the 1,180px text column it always
+   scrolled sideways even on a large monitor. The diagram and the controls that act
+   on it break out to the full window width — the calc resolves to 0 on any screen
+   narrower than the column, so it self-neutralises — while the prose stays at a
+   readable measure. Their max-width is pinned in script to the graph's own width,
+   so nothing opens wider than there is diagram to show, and the sticky bar stays
+   the same width as the canvas it sits above rather than floating over it. */
+/* Centred, not left-aligned: the width is the smaller of the available window and
+   the graph's own width, and the side margins are half the difference against the
+   text column, which resolves to 0 once the window is narrower than that column.
+   --sbw is the scrollbar's width, measured once, so 100vw does not overshoot the
+   content box and introduce a horizontal page scroll. */
+.fullbleed{
+  --avail:calc(100vw - 36px - var(--sbw,0px));
+  --bleed:min(var(--avail),var(--graphw,100vw));
+  width:var(--bleed);
+  margin-inline:calc((100% - var(--bleed))/2);
+}
+/* The zoom cluster sits in the wrapper rather than inside the scrolling stage, so it
+   stays put in the corner while the canvas moves under it. */
+.stagewrap{position:relative}
+/* The frame keeps a fixed height (set in script to the lesser of 86vh and the
+   diagram's own height) so that zooming out shrinks the diagram inside a stable
+   window instead of collapsing the window itself — otherwise the zoom buttons move
+   out from under the pointer between clicks. "safe" centring keeps the top-left
+   reachable once the diagram is larger than the frame. */
 .stage{position:relative;border:1px solid var(--rule);border-radius:4px;
-  background:var(--surface);overflow:auto;max-height:78vh;touch-action:pan-x pan-y}
+  background:var(--surface);overflow:auto;max-height:86vh;touch-action:pan-x pan-y;
+  display:grid;place-content:safe center}
 #graph{display:block}
+.zoomctl{position:absolute;right:11px;bottom:11px;display:flex;gap:3px;
+  background:var(--paper);border:1px solid var(--rule);border-radius:5px;padding:3px;
+  box-shadow:0 1px 7px rgba(0,0,0,.13)}
+.zbtn{min-width:36px;min-height:34px;padding:6px 8px;background:var(--surface);
+  font-size:12px;letter-spacing:.04em}
+.zlevel{min-width:52px;font-variant-numeric:tabular-nums}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .zoomctl{box-shadow:0 1px 9px rgba(0,0,0,.5)}
+}
+:root[data-theme="dark"] .zoomctl{box-shadow:0 1px 9px rgba(0,0,0,.5)}
 .gnode{cursor:pointer}
 .gnode rect{fill:var(--surface);stroke:var(--rule);stroke-width:1.2;rx:3}
 .gnode:hover rect{stroke:var(--ink-faint)}
@@ -176,7 +195,7 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(29px,5.6vw,44
 @media (max-width:520px){.panel dl{grid-template-columns:1fr;gap:2px 0}.panel dd{margin-bottom:9px}}
 .panel dt{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--ink-faint);padding-top:4px}
-.panel dd{margin:0;font-size:15px;line-height:1.5}
+.panel dd{margin:0;font-size:15px;line-height:1.5;max-width:94ch}
 .panel dd ul{margin:0;padding-left:17px}
 .panel dd li{margin-bottom:2px}
 .panel .claim{color:var(--ink-soft);font-size:14.5px;font-style:italic;margin-top:13px;
@@ -238,7 +257,7 @@ h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing
   </div>
 </header>
 
-<div class="controls">
+<div class="controls fullbleed">
   <input id="q" type="search" placeholder="Search a name, institution, or disease…" autocomplete="off">
   <div class="toggles">
     <button class="btn" data-kind="phd" aria-pressed="true" type="button">PhD</button>
@@ -250,7 +269,7 @@ h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing
   </div>
 </div>
 
-<div class="controls2">
+<div class="controls2 fullbleed">
   <div class="ctlrow">
     <span class="ctllabel">Filter out</span>
     <button class="btn" id="active-only" aria-pressed="false" type="button">All but active</button>
@@ -270,7 +289,7 @@ h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing
   </div>
 </div>
 
-<div class="key">
+<div class="key fullbleed">
   <span><i class="swatch sw-phd"></i> Doctoral advisor (major)</span>
   <span><i class="swatch sw-coadv"></i> Doctoral co-advisor</span>
   <span><i class="swatch sw-ms"></i> Master's advisor</span>
@@ -282,12 +301,25 @@ h2{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing
   <span>◇ diagnostician · △ turf role outside pathology · ◦ outside turfgrass entirely</span>
   <span>“Active only” keeps the people whose records state a current post; it does not claim the rest have died</span>
 </div>
-<p class="hint">Click a node to see the record and light up every tie it has; the institution chips highlight everyone who trained or worked somewhere, so people who moved appear under more than one. Scroll or drag inside the frame to move around. For two programs here — the CDGA and Ohio State — only the succession of posts is documented, so those lines carry no advising edges at all. The dotted violet line is informal mentorship: trained under someone without that person signing the degree. Bands group people by career stage rather than by strict generation, so plenty of edges run sideways within a band — Kerns advised Roberts, Kerns and Koch each hold posts the other once held — and those curve below the row rather than down to the next one.</p>
-
-<div class="stage" id="stage">
-  <svg id="graph" role="img" aria-label="Node-link diagram of advising relationships in turfgrass pathology"></svg>
+<div class="hintwrap fullbleed">
+  <button class="btn disclose" id="hint-toggle" aria-expanded="false" aria-controls="hint-body" type="button">
+    <span class="caret">▸</span> How to read the diagram
+  </button>
 </div>
-<div class="panel" id="panel">
+<p class="hint fullbleed" id="hint-body" hidden>Click a node to see the record and light up every tie it has; the institution chips highlight everyone who trained or worked somewhere, so people who moved appear under more than one. Scroll or drag inside the frame to move around, and use the zoom buttons in its lower corner — or hold Ctrl or ⌘ and scroll — to work in closer; “Fit” scales the whole tree into the frame at once, and the percentage resets to full size. For two programs here — the CDGA and Ohio State — only the succession of posts is documented, so those lines carry no advising edges at all. The dotted violet line is informal mentorship: trained under someone without that person signing the degree. Bands group people by career stage rather than by strict generation, so plenty of edges run sideways within a band — Kerns advised Roberts, Kerns and Koch each hold posts the other once held — and those curve below the row rather than down to the next one.</p>
+
+<div class="stagewrap fullbleed">
+  <div class="stage" id="stage">
+    <svg id="graph" role="img" aria-label="Node-link diagram of advising relationships in turfgrass pathology"></svg>
+  </div>
+  <div class="zoomctl" role="group" aria-label="Zoom the diagram">
+    <button class="btn zbtn" id="z-out" type="button" aria-label="Zoom out">–</button>
+    <button class="btn zbtn zlevel" id="z-reset" type="button" aria-label="Reset zoom to 100 percent">100%</button>
+    <button class="btn zbtn" id="z-in" type="button" aria-label="Zoom in">+</button>
+    <button class="btn zbtn" id="z-fit" type="button">Fit</button>
+  </div>
+</div>
+<div class="panel fullbleed" id="panel">
   <p class="placeholder">Select anyone in the diagram for their degrees, posts, relationships, and the source behind each link.</p>
 </div>
 
@@ -1007,6 +1039,11 @@ const svg=document.getElementById('graph');
 svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
 svg.setAttribute('width',W);
 svg.setAttribute('height',H);
+/* The diagram's own width caps how wide the canvas and its controls open; the
+   scrollbar width is a constant, so both are set once rather than on every resize. */
+document.documentElement.style.setProperty('--graphw',(W+2)+'px');
+document.documentElement.style.setProperty('--sbw',
+  (window.innerWidth-document.documentElement.clientWidth)+'px');
 
 const NS="http://www.w3.org/2000/svg";
 function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n}
@@ -1307,6 +1344,80 @@ notesBtn.addEventListener('click',()=>{
   notesBody.hidden=open;
 });
 
+/* Same disclosure for the reading guide above the diagram: collapsed, it hands the
+   graph back about a hundred pixels of window. */
+const hintBtn=document.getElementById('hint-toggle');
+const hintBody=document.getElementById('hint-body');
+hintBtn.addEventListener('click',()=>{
+  const open=hintBtn.getAttribute('aria-expanded')==='true';
+  hintBtn.setAttribute('aria-expanded',String(!open));
+  hintBody.hidden=open;
+});
+
+/* ---------- zoom ----------
+   The SVG keeps its viewBox and is resized by attribute, so the diagram stays
+   vector-crisp at any scale and the stage's own scrollbars do the panning. Every
+   zoom keeps one chosen graph point under the same spot on screen — the centre of
+   the view for the buttons, the pointer for ctrl+wheel — so the view never jumps. */
+const stageEl=document.getElementById('stage');
+const zLevel=document.getElementById('z-reset');
+const ZMIN=0.3, ZMAX=2.2, ZSTEP=1.25;
+let zoom=1;
+
+function sizeStage(){
+  stageEl.style.height=Math.min(Math.round(window.innerHeight*0.86),H+2)+'px';
+}
+sizeStage();
+window.addEventListener('resize',sizeStage);
+
+function setZoom(next,gx,gy,vx,vy){
+  next=Math.min(ZMAX,Math.max(ZMIN,next));
+  if(Math.abs(next-zoom)<0.001) return;
+  if(gx===undefined){
+    vx=stageEl.clientWidth/2; vy=stageEl.clientHeight/2;
+    gx=(stageEl.scrollLeft+vx)/zoom; gy=(stageEl.scrollTop+vy)/zoom;
+  }
+  zoom=next;
+  svg.setAttribute('width',Math.round(W*zoom));
+  svg.setAttribute('height',Math.round(H*zoom));
+  stageEl.scrollLeft=gx*zoom-vx;
+  stageEl.scrollTop=gy*zoom-vy;
+  zLevel.textContent=Math.round(zoom*100)+'%';
+  document.getElementById('z-in').disabled=zoom>=ZMAX-0.001;
+  document.getElementById('z-out').disabled=zoom<=ZMIN+0.001;
+}
+
+/* Scale the whole tree into the visible frame, allowing for the borders. */
+function fitZoom(){
+  setZoom(Math.min((stageEl.clientWidth-8)/W,(stageEl.clientHeight-8)/H));
+  stageEl.scrollLeft=0; stageEl.scrollTop=0;
+}
+
+document.getElementById('z-in').addEventListener('click',()=>setZoom(zoom*ZSTEP));
+document.getElementById('z-out').addEventListener('click',()=>setZoom(zoom/ZSTEP));
+document.getElementById('z-fit').addEventListener('click',fitZoom);
+zLevel.addEventListener('click',()=>setZoom(1));
+
+/* Open one step in rather than at 1:1. At 100% the node labels are 12px, which is
+   small for reading a name at a glance, so the diagram starts at 125% and the frame
+   scrolls; the percentage button returns it to true size. Start at the top-left
+   rather than centred: the band labels run down the left edge, and at this zoom the
+   founding generation is still in view from there. */
+sizeStage();
+setZoom(1.25);
+stageEl.scrollTop=0;
+stageEl.scrollLeft=0;
+
+/* Trackpad pinch arrives as ctrl+wheel; anchor it at the pointer. */
+stageEl.addEventListener('wheel',e=>{
+  if(!(e.ctrlKey||e.metaKey)) return;
+  e.preventDefault();
+  const r=stageEl.getBoundingClientRect();
+  const vx=e.clientX-r.left, vy=e.clientY-r.top;
+  setZoom(zoom*(e.deltaY<0?1.1:1/1.1),
+    (stageEl.scrollLeft+vx)/zoom,(stageEl.scrollTop+vy)/zoom,vx,vy);
+},{passive:false});
+
 nodeLayer.addEventListener('click',e=>{
   const g=e.target.closest('.gnode');if(g) show(g.dataset.id);
 });
@@ -1358,8 +1469,5 @@ document.getElementById('c-inst').textContent=new Set(P.map(p=>p.inst)).size;
    generation at the top, so the first view is the whole graph. */
 applyView();
 </script>
-
-</body>
-</html>
 
 </body></html>
