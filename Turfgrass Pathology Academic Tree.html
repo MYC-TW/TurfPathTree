@@ -1,9 +1,28 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+/* Document skeleton. On claude.ai this is supplied by the artifact host; it is
+   inlined here so the file is self-contained and renders identically offline. */
+:root{
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#fafaf8}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
 <title>Turfgrass Pathology Academic Tree</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
 
+</head>
+<body>
 <style>
 /* Layout: generation-banded node-link graph. PhD advising is the drawn trunk;
    MS advising, postdoc training and position succession are overlaid as distinct
@@ -1398,13 +1417,12 @@ document.getElementById('z-out').addEventListener('click',()=>setZoom(zoom/ZSTEP
 document.getElementById('z-fit').addEventListener('click',fitZoom);
 zLevel.addEventListener('click',()=>setZoom(1));
 
-/* Open one step in rather than at 1:1. At 100% the node labels are 12px, which is
-   small for reading a name at a glance, so the diagram starts at 125% and the frame
-   scrolls; the percentage button returns it to true size. Start at the top-left
-   rather than centred: the band labels run down the left edge, and at this zoom the
-   founding generation is still in view from there. */
+/* Open slightly under true size, which brings the whole width of the tree inside the
+   frame on a reasonably wide screen; the percentage button returns it to 100% and
+   the buttons go from there. Start at the top-left rather than centred: the band
+   labels run down the left edge. */
 sizeStage();
-setZoom(1.25);
+setZoom(0.85);
 stageEl.scrollTop=0;
 stageEl.scrollLeft=0;
 
@@ -1469,5 +1487,8 @@ document.getElementById('c-inst').textContent=new Set(P.map(p=>p.inst)).size;
    generation at the top, so the first view is the whole graph. */
 applyView();
 </script>
+
+</body>
+</html>
 
 </body></html>
