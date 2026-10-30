@@ -410,12 +410,17 @@ const P=[
  note:"Jackson's predecessor at Bingley; his 1958 departure opened the post that pulled Jackson into turf. Co-author with Jackson of <i>Fungal Diseases of Amenity Turf Grasses</i>.",
  claim:"The STRI succession is documented. The later Canadian position is from general knowledge and should be confirmed.",src:[6]},
 
-{id:"jackson",gen:3,status:"deceased",conf:"root",name:"Noel Jackson",inst:"Rhode Island",meta:"1931–2018",
- deg:["B.Sc. Hons Agricultural Botany, King's College, Newcastle upon Tyne","Ph.D. Agronomy, University of Durham"],
+{id:"mjones",gen:2,conf:"root",name:"Martyn Jones",inst:"King's College, Durham",kind:"context",
+ roles:["King's College, University of Durham, England — later the University of Newcastle upon Tyne"],
+ note:"Noel Jackson's doctoral supervisor, and so the point at which this diagram leaves the United States altogether. King's College at Newcastle was part of the University of Durham until 1963, which is why Jackson's two degrees carry different university names for the same place.",
+ claim:"Named by Michael Fidanza as Jackson's doctoral supervisor. Nothing else about him is recorded here — his own training, his dates and his other students are all open.",src:[]},
+
+{id:"jackson",gen:3,status:"deceased",phd:"mjones",conf:"documented",name:"Noel Jackson",inst:"Rhode Island",meta:"1931–2018",
+ deg:["B.Sc. Hons Agricultural Botany, King's College, Newcastle upon Tyne","Ph.D. Agronomy, University of Durham, under Martyn Jones"],
  roles:["Biologist, Sports Turf Research Institute, Bingley, 1958–1965","Assistant to full Professor of Plant Pathology, University of Rhode Island, 1965–c.2003"],
  succeeds:"drewsmith",succLabel:"took the Bingley post Smith left in 1958",
  note:"Raised on a Yorkshire farm, the first in his family to attend university. Widely held the finest turf disease diagnostician of his generation; the dollar spot pathogen <i>Clarireedia jacksonii</i> carries his name. He said his proudest accomplishment was watching former students succeed.",
- claim:"A root because his British doctoral supervisor is not named in any source found.",src:[6,7,8]},
+ claim:"No longer a root: Michael Fidanza names Martyn Jones at King's College, University of Durham, as his doctoral supervisor. That was the oldest unanswered question in this diagram — Jackson is the ancestor of the whole Rhode Island and Maryland side, and until now the line simply stopped at him.",src:[6,7,8]},
 
 {id:"dernoeden",gen:4,status:"emeritus",phd:"jackson",conf:"documented",name:"Peter H. Dernoeden",inst:"Maryland",
  deg:["B.S. 1970, M.S. 1976, Colorado State (M.S. under Jack Butler)","Ph.D. Plant Pathology, Rhode Island, 1980, under Noel Jackson"],
@@ -423,6 +428,11 @@ const P=[
  ms:"butler",
  note:"U.S. Army 1970–1973 between his two Colorado State degrees. Described bentgrass dead spot and its pathogen <i>Ophiosphaerella agrostis</i>; also a weed scientist, and the origin of split pre- and post-emergent crabgrass programs.",
  claim:"Dernoeden names Jackson and Butler as his mentors in a retirement interview; degrees and dates match his faculty record.",src:[9,10]},
+
+{id:"wetzel",gen:5,ms:"dernoeden",conf:"documented",name:"Henry Wetzel",inst:"Maryland → Kansas State",
+ deg:["M.S. 1994, University of Maryland, under Peter Dernoeden"],
+ note:"First author of the 1999 paper that moved <i>Leptosphaeria narmari</i> into <i>Ophiosphaerella</i> and reported the species in North America for the first time — written with Scot Hulbert and Ned Tisserat in Kansas State's plant pathology department. His master's advisor had described <i>Ophiosphaerella agrostis</i> and bentgrass dead spot, so the same genus runs through both halves of his training. The work also means the Maryland line reaches into Tisserat's Kansas State program, where spring dead spot was being resolved at the same period.",
+ claim:"The master's and Dernoeden as its advisor are confirmed by Michael Fidanza, who was a doctoral student in the same lab. His doctorate is a separate question: the 1999 paper places him in Tisserat's department at Kansas State, which makes Tisserat the obvious candidate for a doctoral advisor, but nothing found states it and no edge is drawn on that basis. Where he went afterwards is also unrecorded here.",src:[80]},
 
 {id:"butler",gen:3,conf:"root",name:"Jack Butler",inst:"Colorado State",kind:"context",
  roles:["Faculty, Colorado State University"],
@@ -454,11 +464,11 @@ const P=[
  note:"His master's was in a field unrelated to pathology, so only the doctorate places him here — the same shape as Chou and Shaohui Wu, who also came to turf pathology from elsewhere. The fifth person in this diagram now at Envu.",
  claim:"Kaminski confirmed directly as his doctoral advisor. His master's is outside pathology and is deliberately not drawn, since it carries no lineage into this field.",src:[]},
 
-{id:"fidanza",gen:5,status:"active",conf:"reported",name:"Michael Fidanza",inst:"Penn State Berks",kind:"offpath",
- deg:["B.S. Agricultural Science, Penn State","M.Agr. Agronomy, Penn State","Ph.D. Agronomy (Plant and Soil Sciences), University of Maryland"],
+{id:"fidanza",gen:5,status:"active",phd:"dernoeden",conf:"documented",name:"Michael Fidanza",inst:"Penn State Berks",kind:"offpath",
+ deg:["B.S. Agricultural Science, Penn State","M.Agr. Agronomy, Penn State","Ph.D. Agronomy (Plant and Soil Sciences), University of Maryland, 1995, under Peter Dernoeden"],
  roles:["Professor of Plant and Soil Sciences, Penn State Berks","Editor, International Turfgrass Society Research Journal"],
  note:"Turfgrass ecology, fairy ring, soil surfactants, plant health products. An agronomy degree rather than a pathology one, so he sits in the tree as a turf-role graduate of this lineage.",
- claim:"The Maryland agronomy doctorate overlaps Dernoeden's tenure and his fairy ring work runs parallel, but no source found names his advisor.",src:[27]},
+ claim:"Confirmed by Fidanza himself: the doctorate is 1995 under Dernoeden. That replaces the earlier inference, which had got the right answer for weak reasons — his Maryland dates overlapped Dernoeden's tenure and the fairy ring work ran parallel, but no source named the advisor.",src:[27]},
 
 {id:"jordan",gen:5,status:"active",phd:"mitkowski",conf:"documented",name:"Katerina S. Jordan",inst:"Guelph",
  deg:["B.Sc. Microbiology, University of Maryland","M.Sc. Agronomy, University of Maryland","Ph.D. Plant Sciences, University of Rhode Island, under Nathaniel Mitkowski"],
@@ -968,7 +978,8 @@ const SOURCES=[
  ['“Oklahoma State,” turf pathology lab directory, TurfDiseases.org','https://turfdiseases.org/labs/oklahoma-state/'],
  ['Oklahoma State University faculty catalogue, College of Agricultural Sciences and Natural Resources, 2003–04','https://registrar.okstate.edu/site-files/documents/faculty_03-04.pdf'],
  ['“Kirkpatrick appointed interim department head of entomology, plant pathology,” University of Arkansas System Division of Agriculture, 14 July 2017','https://uaex.uada.edu/media-resources/news/2017/july2017/07-14-2017-Ark-Kirkpatrick-appointed-entomology-pathology.aspx'],
- ['<i>Summaries of Arkansas Cotton Research 2020</i>, Arkansas Agricultural Experiment Station','https://cottoncultivated.cottoninc.com/wp-content/uploads/2021/09/Summaries-of-Arkansas-Cotton-Research-2020.pdf']
+ ['<i>Summaries of Arkansas Cotton Research 2020</i>, Arkansas Agricultural Experiment Station','https://cottoncultivated.cottoninc.com/wp-content/uploads/2021/09/Summaries-of-Arkansas-Cotton-Research-2020.pdf'],
+ ['H. C. Wetzel, S. H. Hulbert and N. A. Tisserat, “Molecular evidence for the presence of <i>Ophiosphaerella narmari</i> comb. nov., a cause of spring dead spot of bermuda grass, in North America,” <i>Mycological Research</i> 103(8), 1999','https://www.cambridge.org/core/journals/mycological-research/article/abs/molecular-evidence-for-the-presence-of-ophiosphaerella-narmari-n-comb-a-cause-of-spring-dead-spot-of-bermuda-grass-in-north-america/3B466E8BA8A00B83E6F258F55007C7D0']
 ];
 
 /* ---------- derived structures (same definitions as the wide version) ---------- */
