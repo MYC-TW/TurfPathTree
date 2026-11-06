@@ -773,6 +773,12 @@ const P=[
  note:"Master's thesis on <i>S. homoeocarpa</i> pathogenicity and lightweight rolling for dollar spot suppression, then a doctorate on bacterial etiolation — both signed by Vargas. Now in industry, like most of the Clarke and Vargas graduates of his cohort.",
  claim:"Vargas confirmed directly as his doctoral advisor as well as his master's, which closes the gap his MSU profile left open — that profile names Vargas for the master's and gives the thesis title, but stops there.",src:[24]},
 
+{id:"dwyer",gen:5,status:"active",conf:"root",name:"Phil Dwyer",inst:"Thatch Zyme",
+ deg:["B.S. Turfgrass Management, Michigan State University","M.S. Turfgrass Pathology, Michigan State University","Ph.D. Turfgrass Pathology, Michigan State University"],
+ roles:["Golf course work at several top-100 courses","Turfgrass product development and innovation, as a researcher in industry","Vice-president of sales and marketing, Thatch Zyme — thatch and organic matter management, and the university field research on the company's enzyme technologies"],
+ note:"Three degrees at one institution, two of them named turfgrass pathology outright, and then a career spent entirely outside the universities. The route is one this diagram keeps recording — trained in a pathology lab, then industry — but carried further than most: the post is sales and marketing rather than research, and the pathology that remains in it is coordinating the field trials his company's products are tested in.",
+ claim:"Degrees, their fields and the career come from his own conference speaker biography. A root because nothing found names his advisor, and the gap is a narrow one: Michigan State turf pathology has had only two holders in this diagram, Vargas and then Wang, so his dates alone would very likely settle it. A different Phil Dwyer, Ph.D., writes for the Huffington Post — not this one.",src:[85]},
+
 /* ---- Oklahoma State, and the Arkansas doctorate ---- */
 {id:"kirkpatrick",gen:3,conf:"root",name:"Terry L. Kirkpatrick",inst:"Arkansas",kind:"context",
  roles:["Professor and Extension Nematologist, University of Arkansas System Division of Agriculture","Interim head, Entomology and Plant Pathology, from 2017"],
@@ -1050,7 +1056,8 @@ const SOURCES=[
  ['Profile of Steve Kammerer on his appointment as USGA Green Section Southeast Region director, <i>The Florida Green</i>, Spring 2016','https://archive.lib.msu.edu/tic/flgre/article/2016spr.pdf'],
  ['“HCS Alumni Spotlight: Cameron Stephens,” Horticulture and Crop Science, Ohio State University','https://hcs.osu.edu/cameron'],
  ['“Environmental Science names Dr. Frank P. Wong Technical Service Specialist,” <i>Golfdom</i>, May 2011','https://golfdom.com/?p=342'],
- ['UC Riverside turfgrass programme newsletter, welcome letter by James H. Baird','https://turfgrass.ucr.edu/media/156/download']
+ ['UC Riverside turfgrass programme newsletter, welcome letter by James H. Baird','https://turfgrass.ucr.edu/media/156/download'],
+ ['Speaker biography of Dr. Phil Dwyer, Golf Course Industry “Spring Solutions” conference','https://events.golfcourseindustry.com/golfspringsolutions/speakers/bio/drphildwyer']
 ];
 
 const byId=Object.fromEntries(P.map(p=>[p.id,p]));
@@ -1218,7 +1225,7 @@ function relLine(kind,otherId,label){
    Sector comes from current affiliation; school affiliation is matched against every
    institution a person's record mentions, so someone who trained in one place and
    works in another belongs to both groups. */
-const INDUSTRY=/Syngenta|Envu|BASF|PBI-Gordon|Harrell|Quali-Pro|Bayer|NewLeaf|ADAMA|Simplot/i;
+const INDUSTRY=/Syngenta|Envu|BASF|PBI-Gordon|Harrell|Quali-Pro|Bayer|NewLeaf|ADAMA|Simplot|Thatch Zyme/i;
 function isIndustry(p){return INDUSTRY.test(p.inst)}
 
 const SCHOOLS=[
